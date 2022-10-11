@@ -1,0 +1,43 @@
+{
+  "name": "swagger-typescript-parser",
+  "version": "1.0.0",
+  "description": "只需要一个命令，自动将swagger文档转换为typescript的interface、api。支持参数的代码提示，支持自定义http库",
+  "main": "build/esbuild.cjs",
+  "bin": {
+    "tsgen":"build/cli.cjs"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "npx esbuild ./test/test-tsgen.ts --bundle --platform=node --target=node14.0.0 --outfile=dist/test-tsgen.cjs && node dist/test-tsgen.cjs",
+    "test:cli": "npm run build:cli && node build/cli.cjs parse --output test-cli-interface.ts --localPath test/doc.json",
+    "build": "npx esbuild ./src/entry-tsgen.ts --bundle --platform=node --target=node14.0.0 --outfile=build/esbuild.cjs",
+    "build:cli": "npx esbuild ./src/entry-cli.ts --bundle --platform=node --target=node14.0.0 --outfile=build/cli.cjs",
+    "start": "npm run build && node build/esbuild.cjs",
+    "watch": "npx nodemon build/esbuild.cjs & npm run build -- --watch &  npm run build:cli -- --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lizhiqianduan/swagger-typescript-parser.git"
+  },
+  "keywords": [
+    "swagger",
+    "typescript",
+    "interface",
+    "api",
+    "openapi"
+  ],
+  "author": "datagetter.cn",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/commander": "^2.12.2",
+    "@types/node": "^18.8.3",
+    "esbuild": "^0.15.10",
+    "openapi-typescript": "^5.4.1"
+  },
+  "dependencies": {
+    "commander": "^9.4.1",
+    "wget-improved": "^3.3.1"
+  }
+}

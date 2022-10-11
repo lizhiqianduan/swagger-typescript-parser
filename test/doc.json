@@ -1,0 +1,882 @@
+{
+  "swagger": "2.0",
+  "info": {
+      "description": "接口文档",
+      "version": "1.0.0",
+      "title": "某某项目"
+  },
+  "host": "xxx",
+  "basePath": "/",
+  "tags": [
+      {
+          "name": "网站接口",
+          "description": "App Controller"
+      }
+  ],
+  "paths": {
+      "/api/getArticleByCateCode": {
+          "post": {
+              "tags": [
+                  "网站接口"
+              ],
+              "summary": "根据导航栏目code查询文章",
+              "operationId": "getArticleByCateCodeUsingPOST",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "*/*"
+              ],
+              "parameters": [
+                  {
+                      "in": "body",
+                      "name": "form",
+                      "description": "form",
+                      "required": true,
+                      "schema": {
+                          "$ref": "#/definitions/文章列表表单"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/api接口通用返回"
+                      }
+                  },
+                  "201": {
+                      "description": "Created"
+                  },
+                  "401": {
+                      "description": "Unauthorized"
+                  },
+                  "403": {
+                      "description": "Forbidden"
+                  },
+                  "404": {
+                      "description": "Not Found"
+                  }
+              }
+          }
+      },
+      "/api/getArticleById": {
+          "get": {
+              "tags": [
+                  "网站接口"
+              ],
+              "summary": "根据主键Id查询文章详情",
+              "operationId": "getArticleByIdUsingGET",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "*/*"
+              ],
+              "parameters": [
+                  {
+                      "name": "articleId",
+                      "in": "query",
+                      "description": "新闻主键Id",
+                      "required": true,
+                      "type": "string"
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/api接口通用返回«文章详情vo»"
+                      }
+                  },
+                  "401": {
+                      "description": "Unauthorized"
+                  },
+                  "403": {
+                      "description": "Forbidden"
+                  },
+                  "404": {
+                      "description": "Not Found"
+                  }
+              }
+          }
+      },
+      "/api/getArticlePageByCateCode": {
+          "post": {
+              "tags": [
+                  "网站接口"
+              ],
+              "summary": "根据栏目code查询文章分页",
+              "operationId": "getArticlePageByCateCodeUsingPOST",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "*/*"
+              ],
+              "parameters": [
+                  {
+                      "in": "body",
+                      "name": "form",
+                      "description": "form",
+                      "required": true,
+                      "schema": {
+                          "$ref": "#/definitions/文章列表表单"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/api接口通用返回«分页«文章列表vo»»"
+                      }
+                  },
+                  "201": {
+                      "description": "Created"
+                  },
+                  "401": {
+                      "description": "Unauthorized"
+                  },
+                  "403": {
+                      "description": "Forbidden"
+                  },
+                  "404": {
+                      "description": "Not Found"
+                  }
+              }
+          }
+      },
+      "/api/getCategoryList": {
+          "get": {
+              "tags": [
+                  "网站接口"
+              ],
+              "summary": "加载所有导航栏目",
+              "operationId": "getCategoryListUsingGET",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "*/*"
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/api接口通用返回«List«导航栏目vo»»"
+                      }
+                  },
+                  "401": {
+                      "description": "Unauthorized"
+                  },
+                  "403": {
+                      "description": "Forbidden"
+                  },
+                  "404": {
+                      "description": "Not Found"
+                  }
+              }
+          }
+      },
+      "/api/getCategoryNextArticle": {
+          "get": {
+              "tags": [
+                  "网站接口"
+              ],
+              "summary": "导航栏目加载下一篇",
+              "operationId": "getCategoryNextArticleUsingGET",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "*/*"
+              ],
+              "parameters": [
+                  {
+                      "in": "body",
+                      "name": "form",
+                      "description": "form",
+                      "required": true,
+                      "schema": {
+                          "$ref": "#/definitions/导航栏目文章上一篇或下一篇表单"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/api接口通用返回«文章详情vo»"
+                      }
+                  },
+                  "401": {
+                      "description": "Unauthorized"
+                  },
+                  "403": {
+                      "description": "Forbidden"
+                  },
+                  "404": {
+                      "description": "Not Found"
+                  }
+              }
+          }
+      },
+      "/api/getCategoryPreviousArticle": {
+          "post": {
+              "tags": [
+                  "网站接口"
+              ],
+              "summary": "导航栏目加载上一篇",
+              "operationId": "getCategoryPreviousArticleUsingPOST",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "*/*"
+              ],
+              "parameters": [
+                  {
+                      "in": "body",
+                      "name": "form",
+                      "description": "form",
+                      "required": true,
+                      "schema": {
+                          "$ref": "#/definitions/导航栏目文章上一篇或下一篇表单"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/api接口通用返回«文章详情vo»"
+                      }
+                  },
+                  "201": {
+                      "description": "Created"
+                  },
+                  "401": {
+                      "description": "Unauthorized"
+                  },
+                  "403": {
+                      "description": "Forbidden"
+                  },
+                  "404": {
+                      "description": "Not Found"
+                  }
+              }
+          }
+      },
+      "/api/getChildCategory": {
+          "get": {
+              "tags": [
+                  "网站接口"
+              ],
+              "summary": "加载导航栏目的子栏目集合",
+              "operationId": "getChildCategoryUsingGET",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "*/*"
+              ],
+              "parameters": [
+                  {
+                      "name": "cateCode",
+                      "in": "query",
+                      "description": "栏目code",
+                      "required": true,
+                      "type": "string"
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/api接口通用返回«List«子栏目vo»»"
+                      }
+                  },
+                  "401": {
+                      "description": "Unauthorized"
+                  },
+                  "403": {
+                      "description": "Forbidden"
+                  },
+                  "404": {
+                      "description": "Not Found"
+                  }
+              }
+          }
+      },
+      "/api/getHomeIndex": {
+          "get": {
+              "tags": [
+                  "网站接口"
+              ],
+              "summary": "加载网站首页数据",
+              "operationId": "indexUsingGET",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "*/*"
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/api接口通用返回«Map«string,object»»"
+                      }
+                  },
+                  "401": {
+                      "description": "Unauthorized"
+                  },
+                  "403": {
+                      "description": "Forbidden"
+                  },
+                  "404": {
+                      "description": "Not Found"
+                  }
+              }
+          }
+      },
+      "/api/getHomeNextArticle": {
+          "get": {
+              "tags": [
+                  "网站接口"
+              ],
+              "summary": "官网首页加载下一篇",
+              "operationId": "getHomeNextArticleUsingGET",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "*/*"
+              ],
+              "parameters": [
+                  {
+                      "in": "body",
+                      "name": "form",
+                      "description": "form",
+                      "required": true,
+                      "schema": {
+                          "$ref": "#/definitions/官网首页文章上一篇或下一篇表单"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/api接口通用返回«文章详情vo»"
+                      }
+                  },
+                  "401": {
+                      "description": "Unauthorized"
+                  },
+                  "403": {
+                      "description": "Forbidden"
+                  },
+                  "404": {
+                      "description": "Not Found"
+                  }
+              }
+          }
+      },
+      "/api/getHomePreviousArticle": {
+          "post": {
+              "tags": [
+                  "网站接口"
+              ],
+              "summary": "官网首页加载上一篇",
+              "operationId": "getHomePreviousArticleUsingPOST",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "*/*"
+              ],
+              "parameters": [
+                  {
+                      "in": "body",
+                      "name": "form",
+                      "description": "form",
+                      "required": true,
+                      "schema": {
+                          "$ref": "#/definitions/官网首页文章上一篇或下一篇表单"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/api接口通用返回«文章详情vo»"
+                      }
+                  },
+                  "201": {
+                      "description": "Created"
+                  },
+                  "401": {
+                      "description": "Unauthorized"
+                  },
+                  "403": {
+                      "description": "Forbidden"
+                  },
+                  "404": {
+                      "description": "Not Found"
+                  }
+              }
+          }
+      },
+      "/api/getSecondWebsiteByCateCode": {
+          "get": {
+              "tags": [
+                  "网站接口"
+              ],
+              "summary": "根据栏目code查询二级网站内容",
+              "operationId": "getArticleByCateCodeUsingGET",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "*/*"
+              ],
+              "parameters": [
+                  {
+                      "name": "cateCode",
+                      "in": "query",
+                      "description": "栏目code",
+                      "required": true,
+                      "type": "string"
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/api接口通用返回"
+                      }
+                  },
+                  "401": {
+                      "description": "Unauthorized"
+                  },
+                  "403": {
+                      "description": "Forbidden"
+                  },
+                  "404": {
+                      "description": "Not Found"
+                  }
+              }
+          }
+      },
+      "/api/searchArticleByTitle": {
+          "post": {
+              "tags": [
+                  "网站接口"
+              ],
+              "summary": "根据文章标题检索文章",
+              "operationId": "searchArticleByTitleUsingPOST",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "*/*"
+              ],
+              "parameters": [
+                  {
+                      "in": "body",
+                      "name": "form",
+                      "description": "form",
+                      "required": true,
+                      "schema": {
+                          "$ref": "#/definitions/检索文章表单"
+                      }
+                  },
+                  {
+                      "name": "title",
+                      "in": "query",
+                      "description": "文章标题",
+                      "required": true,
+                      "type": "string"
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/api接口通用返回«分页«文章列表vo»»"
+                      }
+                  },
+                  "201": {
+                      "description": "Created"
+                  },
+                  "401": {
+                      "description": "Unauthorized"
+                  },
+                  "403": {
+                      "description": "Forbidden"
+                  },
+                  "404": {
+                      "description": "Not Found"
+                  }
+              }
+          }
+      }
+  },
+  "definitions": {
+      "api接口通用返回": {
+          "type": "object",
+          "properties": {
+              "code": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "返回码"
+              },
+              "data": {
+                  "type": "object",
+                  "description": "返回数据"
+              },
+              "msg": {
+                  "type": "string",
+                  "description": "返回内容"
+              }
+          }
+      },
+      "api接口通用返回«List«子栏目vo»»": {
+          "type": "object",
+          "properties": {
+              "code": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "返回码"
+              },
+              "data": {
+                  "type": "array",
+                  "description": "返回数据",
+                  "items": {
+                      "$ref": "#/definitions/子栏目vo"
+                  }
+              },
+              "msg": {
+                  "type": "string",
+                  "description": "返回内容"
+              }
+          }
+      },
+      "api接口通用返回«List«导航栏目vo»»": {
+          "type": "object",
+          "properties": {
+              "code": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "返回码"
+              },
+              "data": {
+                  "type": "array",
+                  "description": "返回数据",
+                  "items": {
+                      "$ref": "#/definitions/导航栏目vo"
+                  }
+              },
+              "msg": {
+                  "type": "string",
+                  "description": "返回内容"
+              }
+          }
+      },
+      "api接口通用返回«Map«string,object»»": {
+          "type": "object",
+          "properties": {
+              "code": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "返回码"
+              },
+              "data": {
+                  "type": "object",
+                  "description": "返回数据"
+              },
+              "msg": {
+                  "type": "string",
+                  "description": "返回内容"
+              }
+          }
+      },
+      "api接口通用返回«分页«文章列表vo»»": {
+          "type": "object",
+          "properties": {
+              "code": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "返回码"
+              },
+              "data": {
+                  "description": "返回数据",
+                  "$ref": "#/definitions/分页«文章列表vo»"
+              },
+              "msg": {
+                  "type": "string",
+                  "description": "返回内容"
+              }
+          }
+      },
+      "api接口通用返回«文章详情vo»": {
+          "type": "object",
+          "properties": {
+              "code": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "返回码"
+              },
+              "data": {
+                  "description": "返回数据",
+                  "$ref": "#/definitions/文章详情vo"
+              },
+              "msg": {
+                  "type": "string",
+                  "description": "返回内容"
+              }
+          }
+      },
+      "分页«文章列表vo»": {
+          "type": "object",
+          "properties": {
+              "currPage": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "当前页数"
+              },
+              "list": {
+                  "type": "array",
+                  "description": "列表数据",
+                  "items": {
+                      "$ref": "#/definitions/文章列表vo"
+                  }
+              },
+              "pageSize": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "每页记录数"
+              },
+              "totalCount": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "总记录数"
+              },
+              "totalPage": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "总页数"
+              }
+          }
+      },
+      "子栏目vo": {
+          "type": "object",
+          "properties": {
+              "cateCode": {
+                  "type": "string",
+                  "description": "栏目code"
+              },
+              "cateImg": {
+                  "type": "string",
+                  "description": "栏目背景图"
+              },
+              "cateName": {
+                  "type": "string",
+                  "description": "栏目名称"
+              },
+              "catePcode": {
+                  "type": "string",
+                  "description": "栏目上级code"
+              },
+              "contentType": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "内容类型：1新闻详情，2新闻列表，3图文列表，4子网站"
+              }
+          }
+      },
+      "官网首页文章上一篇或下一篇表单": {
+          "type": "object",
+          "properties": {
+              "artType": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "文章类型：1新闻动态、2通知公告、3职教动态、4校务公开、5教育教学、6校园风景、7学生活动"
+              },
+              "articleId": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "文章主键Id"
+              }
+          }
+      },
+      "导航栏目vo": {
+          "type": "object",
+          "properties": {
+              "cateCode": {
+                  "type": "string",
+                  "description": "栏目code"
+              },
+              "cateImg": {
+                  "type": "string",
+                  "description": "栏目背景图"
+              },
+              "cateName": {
+                  "type": "string",
+                  "description": "栏目名称"
+              },
+              "catePcode": {
+                  "type": "string",
+                  "description": "栏目上级code"
+              },
+              "childs": {
+                  "type": "array",
+                  "description": "子栏目集合",
+                  "items": {
+                      "$ref": "#/definitions/导航栏目vo"
+                  }
+              },
+              "contentType": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "内容类型：1新闻详情，2新闻列表，3图文列表，4子网站"
+              },
+              "id": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "栏目主键Id"
+              },
+              "ifChilds": {
+                  "type": "boolean",
+                  "example": false,
+                  "description": "是否存在子集：true存在，false不存在"
+              }
+          }
+      },
+      "导航栏目文章上一篇或下一篇表单": {
+          "type": "object",
+          "properties": {
+              "articleId": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "文章主键Id"
+              },
+              "cateCode": {
+                  "type": "string",
+                  "description": "栏目code"
+              }
+          }
+      },
+      "文章列表vo": {
+          "type": "object",
+          "properties": {
+              "artImg": {
+                  "type": "string",
+                  "description": "图片地址"
+              },
+              "artTitle": {
+                  "type": "string",
+                  "description": "文章标题"
+              },
+              "cateCode": {
+                  "type": "string",
+                  "description": "栏目code"
+              },
+              "cateName": {
+                  "type": "string",
+                  "description": "栏目名称"
+              },
+              "id": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "主键Id"
+              },
+              "pubTime": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "发布时间"
+              }
+          }
+      },
+      "文章列表表单": {
+          "type": "object",
+          "properties": {
+              "cateCode": {
+                  "type": "string",
+                  "description": "栏目code"
+              },
+              "limit": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "每页大小"
+              },
+              "page": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "页码"
+              }
+          }
+      },
+      "文章详情vo": {
+          "type": "object",
+          "properties": {
+              "artContent": {
+                  "type": "string",
+                  "description": "文章内容"
+              },
+              "artImg": {
+                  "type": "string",
+                  "description": "图片地址"
+              },
+              "artTitle": {
+                  "type": "string",
+                  "description": "文章标题"
+              },
+              "author": {
+                  "type": "string",
+                  "description": "文章作者"
+              },
+              "cateCode": {
+                  "type": "string",
+                  "description": "栏目code"
+              },
+              "cateName": {
+                  "type": "string",
+                  "description": "栏目名称"
+              },
+              "id": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "主键Id"
+              },
+              "pubTime": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "发布时间"
+              }
+          }
+      },
+      "检索文章表单": {
+          "type": "object",
+          "properties": {
+              "limit": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "每页大小"
+              },
+              "page": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "页码"
+              },
+              "searchParam": {
+                  "type": "string",
+                  "description": "搜索关键字"
+              }
+          }
+      }
+  }
+}
