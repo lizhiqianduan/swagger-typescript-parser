@@ -25,8 +25,16 @@ export interface TsgenOption{
    */
   output?: string
 
-
+  /**
+   * 是否拆分interface，拆分的interface将通过d.ts的形式引入
+   */
+  splitInterface?: boolean
 }
+
+/**
+ * 获取interface的接口
+ */
+export type TsgentInterfaceOption = Pick<TsgenOption,'filepath'|'output'|'serviceName'>;
 
 /**
  * 自动生成文档的入口函数
@@ -42,7 +50,7 @@ export async function tsgen(option:TsgenOption){
   if(!json) return tsgenLog('自动生成接口失败！');
 
   // 循环创建interface
-  const interfaceList = Object.keys(json.definitions!).map(key=>{
+  let interfaceList = Object.keys(json.definitions!).map(key=>{
     return createInterface(key,json.definitions![key]);
   })
   
@@ -55,6 +63,12 @@ export async function tsgen(option:TsgenOption){
   // install 函数
   apiList.push(`  install:function(httplib:typeof _httplib){ _httpcustomlib=httplib }`)
   
+  // 是否单独拆分interface
+  if(option.splitInterface){
+    interfaceList = [];
+    tsgenInterface(option);
+  }
+
   const fileStr = BaseTemplate + exportTpl(serviceName||'service',apiList) + interfaceList.join('\r\n');
   
   const filepath = (output||'.')+'/'+(serviceName||'autoTsgen')+'.ts';
@@ -67,7 +81,7 @@ export async function tsgen(option:TsgenOption){
 /**
  * 单独提取interface为d.ts
  */
-export async function tsgenInterface(option:TsgenOption){
+export async function tsgenInterface(option:TsgentInterfaceOption){
   tsgenLog('===========自动生成interface开始执行===========')
   const json:OpenAPI2 = (await getApidocJSON(option.filepath)) as OpenAPI2;
   if(!json) return tsgenLog('自动生成接口失败！');
@@ -75,7 +89,7 @@ export async function tsgenInterface(option:TsgenOption){
   const interfaceList = Object.keys(json.definitions!).map(key=>{
     return createInterface(key,json.definitions![key],true);
   })
-  const filepath = (option.output||'.')+'/'+(option.serviceName||'autoTsgen')+'Interface.d.ts';
+  const filepath = (option.output||'.')+'/'+(option.serviceName||'autoTsgen')+'.d.ts';
   writeFile(filepath,interfaceList.join('\r\n'));
   tsgenLog('写入文件',filepath)
   tsgenLog('===========执行结束===========')

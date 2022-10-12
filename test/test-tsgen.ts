@@ -1,4 +1,4 @@
-import { tsgen,download, moduleRoot, tsgenLog } from "../src/entry-tsgen";
+import { tsgen,download, moduleRoot, tsgenLog, tsgenInterface } from "../src/entry-tsgen";
 import path from "path";
 
 
@@ -17,8 +17,9 @@ async function start(){
     // 基于本地json文件
     tsgen({
         filepath: moduleRoot()+'/test/doc.json',
-        serviceName: 'testService',
-        output:moduleRoot()+'/dist'
+        serviceName: 'split',
+        output:moduleRoot()+'/dist',
+        splitInterface:true
     })
 
 }

@@ -1882,13 +1882,22 @@ function propLine(propKey, prop) {
     ${propKey}${prop.required ? "" : "?"}: ${propType2tsType(prop.type)}
   `;
 }
-function interfaceTpl(title, name, propStr) {
-  return `
+function interfaceTpl(title, name, propStr, splitInterface) {
+  if (!splitInterface)
+    return `
   /**
    * @desc
    * ${title}
    */
   export interface ${name}{
+    ${propStr}
+  }`;
+  return `
+  /**
+   * @desc
+   * ${title}
+   */
+  declare interface ${name}{
     ${propStr}
   }`;
 }
@@ -1906,14 +1915,14 @@ function propType2tsType(propType) {
   };
   return map[propType] || propType;
 }
-function createInterface(name, definition) {
+function createInterface(name, definition, splitInterface) {
   name = name.replace(/«|,|»/g, "_");
   let propStr = "";
   for (const propKey in definition.properties) {
     const prop = definition.properties[propKey];
     propStr += propLine(propKey, prop);
   }
-  return interfaceTpl(definition.title, name, propStr);
+  return interfaceTpl(definition.title, name, propStr, splitInterface);
 }
 function writeFile(path2, str) {
   const fd = fs.openSync(path2, "w");
@@ -2003,13 +2012,13 @@ function download(url, filename) {
 function moduleRoot() {
   return import_path.default.resolve(import_path.default.resolve(__dirname) + "/../");
 }
-async function getApidocJSON(op) {
+async function getApidocJSON(filepath) {
   let remoteUrl = "";
   let localPath = "";
-  if (op.filepath.indexOf("http") !== -1) {
-    remoteUrl = op.filepath;
+  if (filepath.indexOf("http") !== -1) {
+    remoteUrl = filepath;
   } else {
-    localPath = op.filepath;
+    localPath = filepath;
   }
   try {
     if (remoteUrl) {
@@ -2030,15 +2039,15 @@ function tsgenLog(...args) {
 
 // src/entry-tsgen.ts
 async function tsgen(option2) {
-  tsgenLog("===========\u5F00\u59CB\u6267\u884C===========");
+  tsgenLog("===========\u81EA\u52A8\u751F\u6210API\u5F00\u59CB\u6267\u884C===========");
   tsgenLog("\u6267\u884C\u53C2\u6570\uFF1A", option2);
   if (!option2.filepath)
     tsgenLog("\u6587\u6863\u5730\u5740\u4E0D\u80FD\u4E3A\u7A7A\uFF01");
   const { serviceName, output } = option2;
-  const json = await getApidocJSON(option2);
+  const json = await getApidocJSON(option2.filepath);
   if (!json)
     return tsgenLog("\u81EA\u52A8\u751F\u6210\u63A5\u53E3\u5931\u8D25\uFF01");
-  const interfaceList = Object.keys(json.definitions).map((key) => {
+  let interfaceList = Object.keys(json.definitions).map((key) => {
     return createInterface(key, json.definitions[key]);
   });
   const apiList = Object.keys(json.paths).map((key) => {
@@ -2047,9 +2056,26 @@ async function tsgen(option2) {
   tsgenLog("interface\u603B\u6570\uFF1A" + interfaceList.length);
   tsgenLog("api\u603B\u6570\uFF1A" + apiList.length);
   apiList.push(`  install:function(httplib:typeof _httplib){ _httpcustomlib=httplib }`);
+  if (option2.splitInterface) {
+    interfaceList = [];
+    tsgenInterface(option2);
+  }
   const fileStr = BaseTemplate + exportTpl(serviceName || "service", apiList) + interfaceList.join("\r\n");
   const filepath = (output || ".") + "/" + (serviceName || "autoTsgen") + ".ts";
   writeFile(filepath, fileStr);
+  tsgenLog("\u5199\u5165\u6587\u4EF6", filepath);
+  tsgenLog("===========\u6267\u884C\u7ED3\u675F===========");
+}
+async function tsgenInterface(option2) {
+  tsgenLog("===========\u81EA\u52A8\u751F\u6210interface\u5F00\u59CB\u6267\u884C===========");
+  const json = await getApidocJSON(option2.filepath);
+  if (!json)
+    return tsgenLog("\u81EA\u52A8\u751F\u6210\u63A5\u53E3\u5931\u8D25\uFF01");
+  const interfaceList = Object.keys(json.definitions).map((key) => {
+    return createInterface(key, json.definitions[key], true);
+  });
+  const filepath = (option2.output || ".") + "/" + (option2.serviceName || "autoTsgen") + "Interface.d.ts";
+  writeFile(filepath, interfaceList.join("\r\n"));
   tsgenLog("\u5199\u5165\u6587\u4EF6", filepath);
   tsgenLog("===========\u6267\u884C\u7ED3\u675F===========");
 }
