@@ -4,14 +4,14 @@
   "description": "只需要一个命令，自动将swagger文档转换为typescript的interface、api。支持参数的代码提示，支持自定义http库",
   "main": "build/esbuild.cjs",
   "bin": {
-    "tsgen":"build/cli.cjs"
+    "tsgen": "build/cli.cjs"
   },
   "directories": {
     "test": "test"
   },
   "scripts": {
     "test": "npx esbuild ./test/test-tsgen.ts --bundle --platform=node --target=node14.0.0 --outfile=dist/test-tsgen.cjs && node dist/test-tsgen.cjs",
-    "test:cli": "npm run build:cli && node build/cli.cjs parse --output test-cli-interface.ts --localPath test/doc.json",
+    "test:cli": "npm run build:cli && node build/cli.cjs test/doc.json --output ./dist",
     "build": "npx esbuild ./src/entry-tsgen.ts --bundle --platform=node --target=node14.0.0 --outfile=build/esbuild.cjs",
     "build:cli": "npx esbuild ./src/entry-cli.ts --bundle --platform=node --target=node14.0.0 --outfile=build/cli.cjs",
     "start": "npm run build && node build/esbuild.cjs",

@@ -7,7 +7,8 @@ program
   .version('1.0');
 
 const commandParse = program
-  .command('parse')
+  // .command('parse')
+  .argument('<filepath>','文件路径')
   .description('将swagger接口转换为ts的interface和API')
   .option('--localPath <docpath>','文档的本地路径')
   .option('--remoteUrl <docpath>','文档的远端路径')

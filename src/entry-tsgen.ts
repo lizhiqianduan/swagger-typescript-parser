@@ -9,14 +9,10 @@ export {download,moduleRoot,tsgenLog} from './helper';
  */
 export interface TsgenOption{
   /**
-   * swagger apidoc远端访问地址
+   * 文件路径
+   * 支持远端http路径（http返回值需为json），同时也支持本地json文件路径
    */
-  remoteUrl?: string,
-
-  /**
-   * swagger apidoc本地的访问地址
-   */
-   localPath?: string,
+  filepath: string,
 
   /**
    * 服务名，默认为service
@@ -24,9 +20,11 @@ export interface TsgenOption{
   serviceName?: string,
 
   /**
-   * 生成的文件名，默认interface.ts
+   * 生成文件的保存目录，默认为当前执行目录`.`
+   * 注：此目录需提前创建，否则文件生成会失败
    */
-  output: string
+  output?: string
+
 
 }
 
@@ -37,7 +35,7 @@ export interface TsgenOption{
 export async function tsgen(option:TsgenOption){
   tsgenLog('===========开始执行===========');
   tsgenLog('执行参数：',option);
-  if(!option.localPath&&!option.remoteUrl) tsgenLog('文档地址不能为空！') 
+  if(!option.filepath) tsgenLog('文档地址不能为空！') 
   const {serviceName,output} = option;
   
   const json:OpenAPI2 = (await getApidocJSON(option)) as OpenAPI2;
@@ -59,7 +57,7 @@ export async function tsgen(option:TsgenOption){
   
   const fileStr = BaseTemplate + exportTpl(serviceName||'service',apiList) + interfaceList.join('\r\n');
   
-  const filepath = moduleRoot()+'/dist/'+output||'interface.ts';
+  const filepath = (output||'.')+'/'+(serviceName||'autoTsgen')+'.ts';
   writeFile(filepath,fileStr);
   tsgenLog('写入文件',filepath)
   tsgenLog('===========执行结束===========')

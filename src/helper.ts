@@ -169,11 +169,18 @@ export function moduleRoot(){
  * 获取apidoc的json字符串
  */
 export async function getApidocJSON(op:TsgenOption):Promise<object|null>{
+  let remoteUrl = '';
+  let localPath = '';
+  if(op.filepath.indexOf('http')!==-1){
+    remoteUrl = op.filepath;
+  }else{
+    localPath = op.filepath;
+  }
   try{
-    if(op.remoteUrl){
-      return JSON.parse((await download(op.remoteUrl)).rawData);
-    }else if(op.localPath){
-      return JSON.parse(fs.readFileSync(op.localPath,{encoding:'utf-8'}));
+    if(remoteUrl){
+      return JSON.parse((await download(remoteUrl)).rawData);
+    }else if(localPath){
+      return JSON.parse(fs.readFileSync(localPath,{encoding:'utf-8'}));
     }else{
       return null;
     }
