@@ -17,7 +17,7 @@ async function start(){
     // 基于本地json文件
     tsgen({
         filepath: moduleRoot()+'/test/doc.json',
-        serviceName: 'split',
+        serviceName: 'testTsgen',
         output:moduleRoot()+'/dist',
         splitInterface:true
     })

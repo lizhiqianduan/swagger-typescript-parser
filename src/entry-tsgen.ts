@@ -15,9 +15,9 @@ export interface TsgenOption{
   filepath: string,
 
   /**
-   * 服务名，默认为service
+   * 服务名
    */
-  serviceName?: string,
+  serviceName: string,
 
   /**
    * 生成文件的保存目录，默认为当前执行目录`.`
@@ -69,9 +69,9 @@ export async function tsgen(option:TsgenOption){
     tsgenInterface(option);
   }
 
-  const fileStr = BaseTemplate + exportTpl(serviceName||'service',apiList) + interfaceList.join('\r\n');
+  const fileStr = BaseTemplate + exportTpl(serviceName,apiList) + interfaceList.join('\r\n');
   
-  const filepath = (output||'.')+'/'+(serviceName||'autoTsgen')+'.ts';
+  const filepath = (output||'.')+'/'+(serviceName)+'.ts';
   writeFile(filepath,fileStr);
   tsgenLog('写入文件',filepath)
   tsgenLog('===========执行结束===========')

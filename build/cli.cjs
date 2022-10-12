@@ -2060,8 +2060,8 @@ async function tsgen(option) {
     interfaceList = [];
     tsgenInterface(option);
   }
-  const fileStr = BaseTemplate + exportTpl(serviceName || "service", apiList) + interfaceList.join("\r\n");
-  const filepath = (output || ".") + "/" + (serviceName || "autoTsgen") + ".ts";
+  const fileStr = BaseTemplate + exportTpl(serviceName, apiList) + interfaceList.join("\r\n");
+  const filepath = (output || ".") + "/" + serviceName + ".ts";
   writeFile(filepath, fileStr);
   tsgenLog("\u5199\u5165\u6587\u4EF6", filepath);
   tsgenLog("===========\u6267\u884C\u7ED3\u675F===========");
@@ -2082,10 +2082,10 @@ async function tsgenInterface(option) {
 
 // src/entry-cli.ts
 program.name("tsgen").description("CLI to swagger-typescript-parser").version("1.0");
-var commandParse = program.command("parse").description("\u5C06swagger\u63A5\u53E3\u8F6C\u6362\u4E3Ats\u7684interface\u548CAPI").option("-f,--filepath <filepath>", "swagger\u7684JSON\u6587\u6863\u8DEF\u5F84").option("-s,--serviceName <serviceName>", "\u751F\u6210\u6587\u4EF6export\u7684\u540D\u79F0\u4EE5\u53CA\u6587\u4EF6\u540D\u79F0").option("-o,--output <output>", "\u8F93\u51FA\u7684\u6587\u4EF6\u540D\uFF0C\u9ED8\u8BA4\u4E3A\u5F53\u524D\u76EE\u5F55", ".").action((option) => {
+program.command("parse").description("\u5C06swagger\u63A5\u53E3\u8F6C\u6362\u4E3Ats\u7684interface\u548CAPI").requiredOption("-f,--filepath <filepath>", "swagger\u7684JSON\u6587\u6863\u8DEF\u5F84").requiredOption("-s,--serviceName <serviceName>", "service\u540D\u3001\u6587\u4EF6\u540D").option("-o,--output <output>", "\u8F93\u51FA\u7684\u6587\u4EF6\u76EE\u5F55\uFF0C\u9ED8\u8BA4\u4E3A\u5F53\u524D\u76EE\u5F55", ".").option("-i,--splitInterface", "\u662F\u5426\u5355\u72EC\u8F93\u51FAinterface\u6587\u4EF6").action((option) => {
   tsgen(option);
 });
-var commandInterface = program.command("interface").description("\u81EA\u52A8\u83B7\u53D6swagger\u6587\u6863\u4E2D\u7684model\uFF0C\u751F\u6210d.ts\u6587\u4EF6").option("-f,--filepath <filepath>", "swagger\u7684JSON\u6587\u6863\u8DEF\u5F84").option("-s,--serviceName <serviceName>", "\u751F\u6210\u6587\u4EF6export\u7684\u540D\u79F0\u4EE5\u53CA\u6587\u4EF6\u540D\u79F0").option("-o,--output <output>", "\u8F93\u51FA\u7684\u6587\u4EF6\u540D\uFF0C\u9ED8\u8BA4\u4E3A\u5F53\u524D\u76EE\u5F55", ".").action((option) => {
+program.command("interface").description("\u81EA\u52A8\u83B7\u53D6swagger\u6587\u6863\u4E2D\u7684model\uFF0C\u751F\u6210interface\u4FDD\u5B58\u5230d.ts\u6587\u4EF6").requiredOption("-f,--filepath <filepath>", "swagger\u7684JSON\u6587\u6863\u8DEF\u5F84").requiredOption("-s,--serviceName <serviceName>", "service\u540D\u3001\u6587\u4EF6\u540D").option("-o,--output <output>", "\u8F93\u51FA\u7684\u6587\u4EF6\u76EE\u5F55\uFF0C\u9ED8\u8BA4\u4E3A\u5F53\u524D\u76EE\u5F55", ".").action((option) => {
   tsgenInterface(option);
 });
 program.parse();

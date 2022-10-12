@@ -77,7 +77,7 @@ function _httplib(reqConfig:{url:string,method:string,params:any},extraConfig?:A
   _httpcustomlib({..._reqConfig,url:url})
 };
 let _httpcustomlib:typeof _httplib = (...args:Parameters<typeof _httplib>)=>{};
-export const service = {
+export const testCli = {
   '/api/getArticleByCateCode':{post: (reqData:  文章列表表单) => _httplib( {url:'/api/getArticleByCateCode',method:'post','params':reqData}, {originUrl:'/api/getArticleByCateCode',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
   '/api/getArticleById':{get: (reqData:  string) => _httplib( {url:'/api/getArticleById',method:'get','params':reqData}, {originUrl:'/api/getArticleById',paramNamesInPath:[],paramNamesInQuery:["articleId"],paramLen:1}) },
   '/api/getArticlePageByCateCode':{post: (reqData:  文章列表表单) => _httplib( {url:'/api/getArticlePageByCateCode',method:'post','params':reqData}, {originUrl:'/api/getArticlePageByCateCode',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },

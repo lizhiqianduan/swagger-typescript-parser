@@ -320,7 +320,7 @@ async function tsgenInterface(option) {
   const interfaceList = Object.keys(json.definitions).map((key) => {
     return createInterface(key, json.definitions[key], true);
   });
-  const filepath = (option.output || ".") + "/" + (option.serviceName || "autoTsgen") + "Interface.d.ts";
+  const filepath = (option.output || ".") + "/" + (option.serviceName || "autoTsgen") + ".d.ts";
   writeFile(filepath, interfaceList.join("\r\n"));
   tsgenLog("\u5199\u5165\u6587\u4EF6", filepath);
   tsgenLog("===========\u6267\u884C\u7ED3\u675F===========");
