@@ -286,7 +286,7 @@ async function tsgen(option) {
   tsgenLog("api\u603B\u6570\uFF1A" + apiList.length);
   apiList.push(`  install:function(httplib:typeof _httplib){ _httpcustomlib=httplib }`);
   const fileStr = BaseTemplate + exportTpl(serviceName || "service", apiList) + interfaceList.join("\r\n");
-  const filepath = moduleRoot() + "/dist/" + output || "interface.ts";
+  const filepath = output || "./autoTsgen.ts";
   writeFile(filepath, fileStr);
   tsgenLog("\u5199\u5165\u6587\u4EF6", filepath);
   tsgenLog("===========\u6267\u884C\u7ED3\u675F===========");

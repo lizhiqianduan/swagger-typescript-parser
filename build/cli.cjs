@@ -2004,11 +2004,18 @@ function moduleRoot() {
   return import_path.default.resolve(import_path.default.resolve(__dirname) + "/../");
 }
 async function getApidocJSON(op) {
+  let remoteUrl = "";
+  let localPath = "";
+  if (op.filepath.indexOf("http") !== -1) {
+    remoteUrl = op.filepath;
+  } else {
+    localPath = op.filepath;
+  }
   try {
-    if (op.remoteUrl) {
-      return JSON.parse((await download(op.remoteUrl)).rawData);
-    } else if (op.localPath) {
-      return JSON.parse(fs.readFileSync(op.localPath, { encoding: "utf-8" }));
+    if (remoteUrl) {
+      return JSON.parse((await download(remoteUrl)).rawData);
+    } else if (localPath) {
+      return JSON.parse(fs.readFileSync(localPath, { encoding: "utf-8" }));
     } else {
       return null;
     }
@@ -2025,7 +2032,7 @@ function tsgenLog(...args) {
 async function tsgen(option2) {
   tsgenLog("===========\u5F00\u59CB\u6267\u884C===========");
   tsgenLog("\u6267\u884C\u53C2\u6570\uFF1A", option2);
-  if (!option2.localPath && !option2.remoteUrl)
+  if (!option2.filepath)
     tsgenLog("\u6587\u6863\u5730\u5740\u4E0D\u80FD\u4E3A\u7A7A\uFF01");
   const { serviceName, output } = option2;
   const json = await getApidocJSON(option2);
@@ -2041,7 +2048,7 @@ async function tsgen(option2) {
   tsgenLog("api\u603B\u6570\uFF1A" + apiList.length);
   apiList.push(`  install:function(httplib:typeof _httplib){ _httpcustomlib=httplib }`);
   const fileStr = BaseTemplate + exportTpl(serviceName || "service", apiList) + interfaceList.join("\r\n");
-  const filepath = moduleRoot() + "/dist/" + output || "interface.ts";
+  const filepath = (output || ".") + "/" + (serviceName || "autoTsgen") + ".ts";
   writeFile(filepath, fileStr);
   tsgenLog("\u5199\u5165\u6587\u4EF6", filepath);
   tsgenLog("===========\u6267\u884C\u7ED3\u675F===========");
@@ -2049,6 +2056,6 @@ async function tsgen(option2) {
 
 // src/entry-cli.ts
 program.name("tsgen").description("CLI to swagger-typescript-parser").version("1.0");
-var commandParse = program.command("parse").description("\u5C06swagger\u63A5\u53E3\u8F6C\u6362\u4E3Ats\u7684interface\u548CAPI").option("--localPath <docpath>", "\u6587\u6863\u7684\u672C\u5730\u8DEF\u5F84").option("--remoteUrl <docpath>", "\u6587\u6863\u7684\u8FDC\u7AEF\u8DEF\u5F84").option("--remoteUrl <serviceName>", "\u751F\u6210\u6587\u4EF6export\u7684\u540D\u79F0").option("--output <filename>", "\u8F93\u51FA\u7684\u6587\u4EF6\u540D\uFF0C\u9ED8\u8BA4\u4E3Ainterface.ts", "interface.ts").parse();
+var commandParse = program.command("parse").description("\u5C06swagger\u63A5\u53E3\u8F6C\u6362\u4E3Ats\u7684interface\u548CAPI").option("-f,--filepath <filepath>", "swagger\u7684JSON\u6587\u6863\u8DEF\u5F84").option("-s,--serviceName <serviceName>", "\u751F\u6210\u6587\u4EF6export\u7684\u540D\u79F0\u4EE5\u53CA\u6587\u4EF6\u540D\u79F0").option("-o,--output <output>", "\u8F93\u51FA\u7684\u6587\u4EF6\u540D\uFF0C\u9ED8\u8BA4\u4E3A\u5F53\u524D\u76EE\u5F55", ".").parse();
 var option = commandParse.opts();
 tsgen(option);
