@@ -7,13 +7,11 @@ program
   .version('1.0');
 
 const commandParse = program
-  // .command('parse')
-  .argument('<filepath>','文件路径')
+  .command('parse')
   .description('将swagger接口转换为ts的interface和API')
-  .option('--localPath <docpath>','文档的本地路径')
-  .option('--remoteUrl <docpath>','文档的远端路径')
-  .option('--remoteUrl <serviceName>','生成文件export的名称')
-  .option('--output <filename>', '输出的文件名，默认为interface.ts','interface.ts')
+  .option('--filepath <filepath>','swagger json文档的路径')
+  .option('--serviceName <serviceName>','生成文件export的名称以及文件名称')
+  .option('--output <dirpath>', '输出的文件名，默认为当前目录','.')
   .parse();
 
 const option = (commandParse.opts<TsgenOption>())
