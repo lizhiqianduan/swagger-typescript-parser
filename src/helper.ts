@@ -22,7 +22,7 @@ export function propType2tsType(propType:string){
  * @param name 接口名，Java存在泛型时，会进行替换。比如：`BoxVO«int,string»` 会替换为 `BoxVO_int_string`
  * @param definition 接口在swagger中的定义
  */
-export function createInterface(name:string,definition: SchemaObject){
+export function createInterface(name:string,definition: SchemaObject,splitInterface?:boolean){
   name = name.replace(/«|,|»/g,'_');
 
   let propStr = '';
@@ -30,7 +30,7 @@ export function createInterface(name:string,definition: SchemaObject){
     const prop = definition.properties![propKey] as SchemaObject;
     propStr+= propLine(propKey,prop);
   }
-  return interfaceTpl(definition.title!,name,propStr);
+  return interfaceTpl(definition.title!,name,propStr,splitInterface);
 }
 
 /**
@@ -168,13 +168,13 @@ export function moduleRoot(){
 /**
  * 获取apidoc的json字符串
  */
-export async function getApidocJSON(op:TsgenOption):Promise<object|null>{
+export async function getApidocJSON(filepath:string):Promise<object|null>{
   let remoteUrl = '';
   let localPath = '';
-  if(op.filepath.indexOf('http')!==-1){
-    remoteUrl = op.filepath;
+  if(filepath.indexOf('http')!==-1){
+    remoteUrl = filepath;
   }else{
-    localPath = op.filepath;
+    localPath = filepath;
   }
   try{
     if(remoteUrl){

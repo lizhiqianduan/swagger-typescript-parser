@@ -33,12 +33,12 @@ export interface TsgenOption{
  * @param option 
  */
 export async function tsgen(option:TsgenOption){
-  tsgenLog('===========开始执行===========');
+  tsgenLog('===========自动生成API开始执行===========');
   tsgenLog('执行参数：',option);
   if(!option.filepath) tsgenLog('文档地址不能为空！') 
   const {serviceName,output} = option;
   
-  const json:OpenAPI2 = (await getApidocJSON(option)) as OpenAPI2;
+  const json:OpenAPI2 = (await getApidocJSON(option.filepath)) as OpenAPI2;
   if(!json) return tsgenLog('自动生成接口失败！');
 
   // 循环创建interface
@@ -59,6 +59,24 @@ export async function tsgen(option:TsgenOption){
   
   const filepath = (output||'.')+'/'+(serviceName||'autoTsgen')+'.ts';
   writeFile(filepath,fileStr);
+  tsgenLog('写入文件',filepath)
+  tsgenLog('===========执行结束===========')
+}
+
+
+/**
+ * 单独提取interface为d.ts
+ */
+export async function tsgenInterface(option:TsgenOption){
+  tsgenLog('===========自动生成interface开始执行===========')
+  const json:OpenAPI2 = (await getApidocJSON(option.filepath)) as OpenAPI2;
+  if(!json) return tsgenLog('自动生成接口失败！');
+  // 循环创建interface
+  const interfaceList = Object.keys(json.definitions!).map(key=>{
+    return createInterface(key,json.definitions![key],true);
+  })
+  const filepath = (option.output||'.')+'/'+(option.serviceName||'autoTsgen')+'Interface.d.ts';
+  writeFile(filepath,interfaceList.join('\r\n'));
   tsgenLog('写入文件',filepath)
   tsgenLog('===========执行结束===========')
 }

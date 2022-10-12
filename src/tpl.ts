@@ -92,13 +92,23 @@ export function propLine(propKey:string,prop: SchemaObject){
   `
 }
 
-export function interfaceTpl(title:string,name:string,propStr:string){
+export function interfaceTpl(title:string,name:string,propStr:string,splitInterface?:boolean){
+  if(!splitInterface)
   return `
   /**
    * @desc
    * ${title}
    */
   export interface ${name}{
+    ${propStr}
+  }`
+
+  return `
+  /**
+   * @desc
+   * ${title}
+   */
+  declare interface ${name}{
     ${propStr}
   }`
 }
