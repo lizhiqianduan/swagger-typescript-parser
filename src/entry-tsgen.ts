@@ -69,7 +69,7 @@ export async function tsgen(option:TsgenOption){
     tsgenInterface(option);
   }
 
-  const fileStr = BaseTemplate + exportTpl(serviceName,apiList) + interfaceList.join('\r\n');
+  const fileStr = interfaceList.join('\r\n') + BaseTemplate + exportTpl(serviceName,apiList) ;
   
   const filepath = (output||'.')+'/'+(serviceName)+'.ts';
   writeFile(filepath,fileStr);
