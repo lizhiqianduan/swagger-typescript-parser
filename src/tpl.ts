@@ -77,7 +77,7 @@ function _httplib(reqConfig:{url:string,method:string,params:any},extraConfig?:A
   url+=queryReplace(_reqConfig.params,extraConfig!);
   queryReplace(_reqConfig.params,extraConfig!);
 
-  _httpcustomlib({..._reqConfig,url:url})
+  return _httpcustomlib({..._reqConfig,url:url})
 };
 let _httpcustomlib:typeof _httplib = (...args:Parameters<typeof _httplib>)=>{};
 `;
