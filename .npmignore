@@ -1,0 +1,6 @@
+node_modules
+src
+.npmrc
+.vscode
+.git
+tsconfig.json
