@@ -11,6 +11,7 @@
   },
   "scripts": {
     "test": "npx esbuild ./test/test-tsgen.ts --bundle --platform=node --target=node14.0.0 --outfile=dist/test-tsgen.cjs && node dist/test-tsgen.cjs",
+    "test:api": "npx esbuild ./test/test-api.ts --bundle --platform=node --target=node14.0.0 --outfile=dist/test-api.cjs && node dist/test-api.cjs",
     "test:cli": "npm run build:cli && node build/cli.cjs parse -f test/doc.json -s testCli -o ./dist",
     "build": "npx esbuild ./src/entry-tsgen.ts --bundle --platform=node --target=node14.0.0 --outfile=build/esbuild.cjs",
     "build:cli": "npx esbuild ./src/entry-cli.ts --bundle --platform=node --target=node14.0.0 --outfile=build/cli.cjs",
