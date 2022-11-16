@@ -217,7 +217,7 @@ function createApi(url, pathItem) {
   if (paramStr.length === 0)
     return `'${url}': { ${action}: () => ${_httpLibTemplate(url, action, "undefined", paramNamesInPath, paramNamesInQuery, paramStr.length)} }`;
   if (paramStr.length === 1)
-    return `'${url}':{${action}: (reqData: ${paramStr[0].slice(paramStr[0].indexOf(":") + 1)}) => ${_httpLibTemplate(url, action, "reqData", paramNamesInPath, paramNamesInQuery, paramStr.length)} }`;
+    return `'${url}':{${action}: (reqData: ${paramStr[0].slice(paramStr[0].indexOf(":") + 1).replace(/«|,|»/g, "_")}) => ${_httpLibTemplate(url, action, "reqData", paramNamesInPath, paramNamesInQuery, paramStr.length)} }`;
   const str = `'${url}':{${action}: (reqData: {${paramStr.join(",")}}) => ${_httpLibTemplate(url, action, "reqData", paramNamesInPath, paramNamesInQuery, paramStr.length)} }`;
   return str;
 }
@@ -306,8 +306,8 @@ async function tsgen(option) {
     interfaceList = [];
     tsgenInterface(option);
   }
-  const fileStr = BaseTemplate + exportTpl(serviceName || "service", apiList) + interfaceList.join("\r\n");
-  const filepath = (output || ".") + "/" + (serviceName || "autoTsgen") + ".ts";
+  const fileStr = BaseTemplate + exportTpl(serviceName, apiList) + interfaceList.join("\r\n");
+  const filepath = (output || ".") + "/" + serviceName + ".ts";
   writeFile(filepath, fileStr);
   tsgenLog("\u5199\u5165\u6587\u4EF6", filepath);
   tsgenLog("===========\u6267\u884C\u7ED3\u675F===========");

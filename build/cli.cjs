@@ -1971,7 +1971,7 @@ function createApi(url, pathItem) {
   if (paramStr.length === 0)
     return `'${url}': { ${action}: () => ${_httpLibTemplate(url, action, "undefined", paramNamesInPath, paramNamesInQuery, paramStr.length)} }`;
   if (paramStr.length === 1)
-    return `'${url}':{${action}: (reqData: ${paramStr[0].slice(paramStr[0].indexOf(":") + 1)}) => ${_httpLibTemplate(url, action, "reqData", paramNamesInPath, paramNamesInQuery, paramStr.length)} }`;
+    return `'${url}':{${action}: (reqData: ${paramStr[0].slice(paramStr[0].indexOf(":") + 1).replace(/«|,|»/g, "_")}) => ${_httpLibTemplate(url, action, "reqData", paramNamesInPath, paramNamesInQuery, paramStr.length)} }`;
   const str = `'${url}':{${action}: (reqData: {${paramStr.join(",")}}) => ${_httpLibTemplate(url, action, "reqData", paramNamesInPath, paramNamesInQuery, paramStr.length)} }`;
   return str;
 }
