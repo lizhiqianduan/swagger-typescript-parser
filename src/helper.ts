@@ -103,7 +103,7 @@ export function createApi(url:string,pathItem:PathItemObject){
 
   // 只有一个参数时的模板
   if(paramStr.length===1)
-  return `'${url}':{${action}: (reqData: ${paramStr[0].slice(paramStr[0].indexOf(':')+1)}) => ${_httpLibTemplate(url,action,'reqData',paramNamesInPath,paramNamesInQuery,paramStr.length)} }`;
+  return `'${url}':{${action}: (reqData: ${paramStr[0].slice(paramStr[0].indexOf(':')+1).replace(/«|,|»/g,'_')}) => ${_httpLibTemplate(url,action,'reqData',paramNamesInPath,paramNamesInQuery,paramStr.length)} }`;
 
   // 多个参数时的模板，此类情况多为query参数、path参数，需要兼容 @todo
   const str = `'${url}':{${action}: (reqData: {${paramStr.join(',')}}) => ${_httpLibTemplate(url,action,'reqData',paramNamesInPath,paramNamesInQuery,paramStr.length)} }`;
