@@ -992,7 +992,7 @@ function paramArrDeal(params:any){
   }
 }
 let _httpcustomlib:typeof _httplib = (...args:Parameters<typeof _httplib>)=>{};
-function _httplib<ResultType>(reqConfig:{url:string,method:string,params:any},extraConfig?:ApiExtraConfig):any{
+function _httplib<ResultType>(reqConfig:{url:string,method:string,params?:any,data?:any},extraConfig?:ApiExtraConfig):any{
   console.log('自动生成ts库 =>',reqConfig)
   const _reqConfig = {...reqConfig};
   let url:string = pathReplace(_reqConfig.params,extraConfig!);
@@ -1003,21 +1003,21 @@ function _httplib<ResultType>(reqConfig:{url:string,method:string,params:any},ex
   return _httpcustomlib({..._reqConfig,url:url}) as ResultType;
 };
 export const serviceLotterySystem = {
-  '/api/batch/del_batch':{post: (reqData:  DelBatchBO):boolean => _httplib<boolean>( {url:'/api/batch/del_batch',method:'post','params':reqData}, {originUrl:'/api/batch/del_batch',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
-  '/api/batch/export_task':{post: (reqData:  ExportTaskBO):string => _httplib<string>( {url:'/api/batch/export_task',method:'post','params':reqData}, {originUrl:'/api/batch/export_task',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
-  '/api/batch/publish_member':{post: (reqData:  PublishMemberBO):PublishMemberVO => _httplib<PublishMemberVO>( {url:'/api/batch/publish_member',method:'post','params':reqData}, {originUrl:'/api/batch/publish_member',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
-  '/api/batch/query_batch':{post: (reqData:  BatchBO):BatchVO => _httplib<BatchVO>( {url:'/api/batch/query_batch',method:'post','params':reqData}, {originUrl:'/api/batch/query_batch',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
-  '/api/batch/query_batch_detail':{post: (reqData:  BatchDetailBO):BatchDetailVO => _httplib<BatchDetailVO>( {url:'/api/batch/query_batch_detail',method:'post','params':reqData}, {originUrl:'/api/batch/query_batch_detail',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
-  '/api/batch/query_batch_list':{post: (reqData:  QueryBatchBO):PageableData_BatchVO_ => _httplib<PageableData_BatchVO_>( {url:'/api/batch/query_batch_list',method:'post','params':reqData}, {originUrl:'/api/batch/query_batch_list',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
-  '/api/batch/query_batch_mgnt':{post: (reqData:  QueryBatchMgntBO):BatchNameVO[] => _httplib<BatchNameVO[]>( {url:'/api/batch/query_batch_mgnt',method:'post','params':reqData}, {originUrl:'/api/batch/query_batch_mgnt',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
-  '/api/batch/query_list':{post: (reqData:  QueryMemberBO):BatchPageVO => _httplib<BatchPageVO>( {url:'/api/batch/query_list',method:'post','params':reqData}, {originUrl:'/api/batch/query_list',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
-  '/api/batch/query_lottery':{post: (reqData:  number):LotteryVO => _httplib<LotteryVO>( {url:'/api/batch/query_lottery',method:'post','params':reqData}, {originUrl:'/api/batch/query_lottery',paramNamesInPath:[],paramNamesInQuery:["batchId"],paramLen:1}) },
+  '/api/batch/del_batch':{post: (reqData:  DelBatchBO):boolean => _httplib<boolean>( {url:'/api/batch/del_batch',method:'post','data':reqData}, {originUrl:'/api/batch/del_batch',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
+  '/api/batch/export_task':{post: (reqData:  ExportTaskBO):string => _httplib<string>( {url:'/api/batch/export_task',method:'post','data':reqData}, {originUrl:'/api/batch/export_task',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
+  '/api/batch/publish_member':{post: (reqData:  PublishMemberBO):PublishMemberVO => _httplib<PublishMemberVO>( {url:'/api/batch/publish_member',method:'post','data':reqData}, {originUrl:'/api/batch/publish_member',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
+  '/api/batch/query_batch':{post: (reqData:  BatchBO):BatchVO => _httplib<BatchVO>( {url:'/api/batch/query_batch',method:'post','data':reqData}, {originUrl:'/api/batch/query_batch',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
+  '/api/batch/query_batch_detail':{post: (reqData:  BatchDetailBO):BatchDetailVO => _httplib<BatchDetailVO>( {url:'/api/batch/query_batch_detail',method:'post','data':reqData}, {originUrl:'/api/batch/query_batch_detail',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
+  '/api/batch/query_batch_list':{post: (reqData:  QueryBatchBO):PageableData_BatchVO_ => _httplib<PageableData_BatchVO_>( {url:'/api/batch/query_batch_list',method:'post','data':reqData}, {originUrl:'/api/batch/query_batch_list',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
+  '/api/batch/query_batch_mgnt':{post: (reqData:  QueryBatchMgntBO):BatchNameVO[] => _httplib<BatchNameVO[]>( {url:'/api/batch/query_batch_mgnt',method:'post','data':reqData}, {originUrl:'/api/batch/query_batch_mgnt',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
+  '/api/batch/query_list':{post: (reqData:  QueryMemberBO):BatchPageVO => _httplib<BatchPageVO>( {url:'/api/batch/query_list',method:'post','data':reqData}, {originUrl:'/api/batch/query_list',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
+  '/api/batch/query_lottery':{post: (reqData:  number):LotteryVO => _httplib<LotteryVO>( {url:'/api/batch/query_lottery',method:'post','data':reqData}, {originUrl:'/api/batch/query_lottery',paramNamesInPath:[],paramNamesInQuery:["batchId"],paramLen:1}) },
   '/api/batch/query_phase': { get: ():PhaseVO[] => _httplib<PhaseVO[]>( {url:'/api/batch/query_phase',method:'get','params':undefined}, {originUrl:'/api/batch/query_phase',paramNamesInPath:[],paramNamesInQuery:[],paramLen:0}) },
-  '/api/batch/query_school_mgnt':{post: (reqData:  QuerySchoolMgntBO):SchoolNameVO[] => _httplib<SchoolNameVO[]>( {url:'/api/batch/query_school_mgnt',method:'post','params':reqData}, {originUrl:'/api/batch/query_school_mgnt',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
-  '/api/batch/save_or_update':{post: (reqData:  SaveOrUpdateBatchBO):BatchVO => _httplib<BatchVO>( {url:'/api/batch/save_or_update',method:'post','params':reqData}, {originUrl:'/api/batch/save_or_update',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
-  '/api/batch/start_lottery':{post: (reqData:  StartLotteryBO):boolean => _httplib<boolean>( {url:'/api/batch/start_lottery',method:'post','params':reqData}, {originUrl:'/api/batch/start_lottery',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
+  '/api/batch/query_school_mgnt':{post: (reqData:  QuerySchoolMgntBO):SchoolNameVO[] => _httplib<SchoolNameVO[]>( {url:'/api/batch/query_school_mgnt',method:'post','data':reqData}, {originUrl:'/api/batch/query_school_mgnt',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
+  '/api/batch/save_or_update':{post: (reqData:  SaveOrUpdateBatchBO):BatchVO => _httplib<BatchVO>( {url:'/api/batch/save_or_update',method:'post','data':reqData}, {originUrl:'/api/batch/save_or_update',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
+  '/api/batch/start_lottery':{post: (reqData:  StartLotteryBO):boolean => _httplib<boolean>( {url:'/api/batch/start_lottery',method:'post','data':reqData}, {originUrl:'/api/batch/start_lottery',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
   '/api/batch/task_result':{get: (reqData:  string):ExportVO => _httplib<ExportVO>( {url:'/api/batch/task_result',method:'get','params':reqData}, {originUrl:'/api/batch/task_result',paramNamesInPath:[],paramNamesInQuery:["taskId"],paramLen:1}) },
-  '/api/batch/valid_file':{post: (reqData:  ValidFileBO):ValidInfoVO => _httplib<ValidInfoVO>( {url:'/api/batch/valid_file',method:'post','params':reqData}, {originUrl:'/api/batch/valid_file',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
-  '/api/templete/down_template':{post: (reqData:  DownTemplateBO):string => _httplib<string>( {url:'/api/templete/down_template',method:'post','params':reqData}, {originUrl:'/api/templete/down_template',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
+  '/api/batch/valid_file':{post: (reqData:  ValidFileBO):ValidInfoVO => _httplib<ValidInfoVO>( {url:'/api/batch/valid_file',method:'post','data':reqData}, {originUrl:'/api/batch/valid_file',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
+  '/api/templete/down_template':{post: (reqData:  DownTemplateBO):string => _httplib<string>( {url:'/api/templete/down_template',method:'post','data':reqData}, {originUrl:'/api/templete/down_template',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
   install:function(httplib:typeof _httplib){ _httpcustomlib=httplib }
   }

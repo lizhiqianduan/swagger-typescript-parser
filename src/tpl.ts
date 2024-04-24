@@ -70,7 +70,7 @@ function paramArrDeal(params:any){
   }
 }
 let _httpcustomlib:typeof _httplib = (...args:Parameters<typeof _httplib>)=>{};
-function _httplib<ResultType>(reqConfig:{url:string,method:string,params:any},extraConfig?:ApiExtraConfig):any{
+function _httplib<ResultType>(reqConfig:{url:string,method:string,params?:any,data?:any},extraConfig?:ApiExtraConfig):any{
   console.log('自动生成ts库 =>',reqConfig)
   const _reqConfig = {...reqConfig};
   let url:string = pathReplace(_reqConfig.params,extraConfig!);

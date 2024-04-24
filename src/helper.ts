@@ -147,6 +147,8 @@ export function createApi(url:string,pathItem:PathItemObject){
  * @returns
  */
 function _httpLibTemplate(url:string,method:string,data:string='reqData',paramNamesInPath:string[],paramNamesInQuery:string[],paramLen:number,resultTypeString:string='any'){
+  if(method.toLowerCase()==='post')
+    return `_httplib<${resultTypeString}>( {url:'${url}',method:'${method}','data':${data}}, {originUrl:'${url}',paramNamesInPath:${JSON.stringify(paramNamesInPath)},paramNamesInQuery:${JSON.stringify(paramNamesInQuery)},paramLen:${paramLen}})`;
   return `_httplib<${resultTypeString}>( {url:'${url}',method:'${method}','params':${data}}, {originUrl:'${url}',paramNamesInPath:${JSON.stringify(paramNamesInPath)},paramNamesInQuery:${JSON.stringify(paramNamesInQuery)},paramLen:${paramLen}})`;
 }
 

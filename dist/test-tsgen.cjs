@@ -93,7 +93,7 @@ function paramArrDeal(params:any){
   }
 }
 let _httpcustomlib:typeof _httplib = (...args:Parameters<typeof _httplib>)=>{};
-function _httplib<ResultType>(reqConfig:{url:string,method:string,params:any},extraConfig?:ApiExtraConfig):any{
+function _httplib<ResultType>(reqConfig:{url:string,method:string,params?:any,data?:any},extraConfig?:ApiExtraConfig):any{
   console.log('\u81EA\u52A8\u751F\u6210ts\u5E93 =>',reqConfig)
   const _reqConfig = {...reqConfig};
   let url:string = pathReplace(_reqConfig.params,extraConfig!);
@@ -229,6 +229,8 @@ function createApi(url, pathItem) {
   return str;
 }
 function _httpLibTemplate(url, method, data = "reqData", paramNamesInPath, paramNamesInQuery, paramLen, resultTypeString = "any") {
+  if (method.toLowerCase() === "post")
+    return `_httplib<${resultTypeString}>( {url:'${url}',method:'${method}','data':${data}}, {originUrl:'${url}',paramNamesInPath:${JSON.stringify(paramNamesInPath)},paramNamesInQuery:${JSON.stringify(paramNamesInQuery)},paramLen:${paramLen}})`;
   return `_httplib<${resultTypeString}>( {url:'${url}',method:'${method}','params':${data}}, {originUrl:'${url}',paramNamesInPath:${JSON.stringify(paramNamesInPath)},paramNamesInQuery:${JSON.stringify(paramNamesInQuery)},paramLen:${paramLen}})`;
 }
 function download(url, filename) {
