@@ -991,6 +991,7 @@ function paramArrDeal(params:any){
     return params;
   }
 }
+let _httpcustomlib:typeof _httplib = (...args:Parameters<typeof _httplib>)=>{};
 function _httplib<ResultType>(reqConfig:{url:string,method:string,params:any},extraConfig?:ApiExtraConfig):any{
   console.log('自动生成ts库 =>',reqConfig)
   const _reqConfig = {...reqConfig};
@@ -1001,8 +1002,7 @@ function _httplib<ResultType>(reqConfig:{url:string,method:string,params:any},ex
 
   return _httpcustomlib({..._reqConfig,url:url}) as ResultType;
 };
-let _httpcustomlib:typeof _httplib = (...args:Parameters<typeof _httplib>)=>{};
-export const remoteService11 = {
+export const serviceLotterySystem = {
   '/api/batch/del_batch':{post: (reqData:  DelBatchBO):boolean => _httplib<boolean>( {url:'/api/batch/del_batch',method:'post','params':reqData}, {originUrl:'/api/batch/del_batch',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
   '/api/batch/export_task':{post: (reqData:  ExportTaskBO):string => _httplib<string>( {url:'/api/batch/export_task',method:'post','params':reqData}, {originUrl:'/api/batch/export_task',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },
   '/api/batch/publish_member':{post: (reqData:  PublishMemberBO):PublishMemberVO => _httplib<PublishMemberVO>( {url:'/api/batch/publish_member',method:'post','params':reqData}, {originUrl:'/api/batch/publish_member',paramNamesInPath:[],paramNamesInQuery:[],paramLen:1}) },

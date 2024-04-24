@@ -1,4 +1,4 @@
-import { SchemaObject } from 'openapi-typescript';
+import { ReferenceObject, SchemaObject } from 'openapi-typescript';
 import { propType2tsType } from "./helper";
 
 export const BaseTemplate = `
@@ -69,6 +69,7 @@ function paramArrDeal(params:any){
     return params;
   }
 }
+let _httpcustomlib:typeof _httplib = (...args:Parameters<typeof _httplib>)=>{};
 function _httplib<ResultType>(reqConfig:{url:string,method:string,params:any},extraConfig?:ApiExtraConfig):any{
   console.log('自动生成ts库 =>',reqConfig)
   const _reqConfig = {...reqConfig};
@@ -79,16 +80,23 @@ function _httplib<ResultType>(reqConfig:{url:string,method:string,params:any},ex
 
   return _httpcustomlib({..._reqConfig,url:url}) as ResultType;
 };
-let _httpcustomlib:typeof _httplib = (...args:Parameters<typeof _httplib>)=>{};
 `;
 
 
 export function propLine(propKey:string,prop: SchemaObject){
+  let propTypeString = 'any';
+
+  if(prop.type) 
+    propTypeString = propType2tsType(prop.type,prop as ReferenceObject)
+  else{
+      propTypeString=(prop as {originalRef:string}).originalRef!.replace(/«|,|»/g,'_');
+  }
+
   return `
     /**
      * ${prop.description}
      */
-    ${propKey}${prop.required?'':'?'}: ${propType2tsType(prop.type!)}
+    ${propKey}${prop.required?'':'?'}: ${propTypeString}
   `
 }
 

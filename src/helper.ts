@@ -4,14 +4,25 @@ import { OpenAPI2, OperationObject, ParameterObject, PathItemObject, ReferenceOb
 import path from 'path';
 import { TsgenOption } from './entry-tsgen';
 import { interfaceTpl, propLine } from './tpl';
+
 /**
- * 将属性的类型 转换为
+ * 将属性的类型 转换为类型字符串
  * @param propType
  */
-export function propType2tsType(propType:string){
+export function propType2tsType(propType?:string,prop?:ReferenceObject){
   const map={
     'integer':'number',
     'array':'any[]'
+  }
+  if(propType==='array') {
+    const subType = (prop as unknown as {items:{originalRef:string,type:string}}).items.type
+    if(subType){
+      return propType2tsType(subType)
+    }
+    return (prop as unknown as {items:{originalRef:string}}).items.originalRef.replace(/«|,|»/g,'_')+'[]';
+  }
+  if(!propType) {
+    return (prop as unknown as {originalRef:string}).originalRef.replace(/«|,|»/g,'_');
   }
   return map[propType as keyof typeof map] || propType;
 }
@@ -53,7 +64,7 @@ function paramParser(param : ReferenceObject | ParameterObject){
   let paramType = '';
   param = param as ParameterObject;
   if(!param.schema){
-    paramType = propType2tsType(param.type!);
+    paramType = propType2tsType(param.type!,param as ReferenceObject);
   }else{
     param.schema = param.schema as SchemaObject;
     if(param.schema.type==='array'){
@@ -64,7 +75,7 @@ function paramParser(param : ReferenceObject | ParameterObject){
       if($ref)
         paramType=(param.schema as SchemaObject&{$ref:string}).$ref.split('#/definitions/')[1];
       else
-      paramType=propType2tsType(param.schema.type!);
+      paramType=propType2tsType(param.schema.type!,param as ReferenceObject);
     }
   }
 
@@ -116,14 +127,14 @@ export function createApi(url:string,pathItem:PathItemObject){
   tsgenLog('query参数=>',paramNamesInQuery);
 
   // 接口没有参数时的模板
-  if(paramStr.length===0) return `'${url}': { ${action}: () => ${_httpLibTemplate(url,action,'undefined',paramNamesInPath,paramNamesInQuery,paramStr.length,resultTypeString)} }`
+  if(paramStr.length===0) return `'${url}': { ${action}: ():${resultTypeString} => ${_httpLibTemplate(url,action,'undefined',paramNamesInPath,paramNamesInQuery,paramStr.length,resultTypeString)} }`
 
   // 只有一个参数时的模板
   if(paramStr.length===1)
-  return `'${url}':{${action}: (reqData: ${paramStr[0].slice(paramStr[0].indexOf(':')+1).replace(/«|,|»/g,'_')}) => ${_httpLibTemplate(url,action,'reqData',paramNamesInPath,paramNamesInQuery,paramStr.length,resultTypeString)} }`;
+  return `'${url}':{${action}: (reqData: ${paramStr[0].slice(paramStr[0].indexOf(':')+1).replace(/«|,|»/g,'_')}):${resultTypeString} => ${_httpLibTemplate(url,action,'reqData',paramNamesInPath,paramNamesInQuery,paramStr.length,resultTypeString)} }`;
 
   // 多个参数时的模板，此类情况多为query参数、path参数，需要兼容 @todo
-  const str = `'${url}':{${action}: (reqData: {${paramStr.join(',')}}) => ${_httpLibTemplate(url,action,'reqData',paramNamesInPath,paramNamesInQuery,paramStr.length,resultTypeString)} }`;
+  const str = `'${url}':{${action}: (reqData: {${paramStr.join(',')}}):${resultTypeString} => ${_httpLibTemplate(url,action,'reqData',paramNamesInPath,paramNamesInQuery,paramStr.length,resultTypeString)} }`;
   return str;
 }
 
@@ -211,6 +222,6 @@ export async function getApidocJSON(filepath:string):Promise<object|null>{
  * @param args 
  */
 export function tsgenLog(...args:any[]){
-  let _args = ['tsgen LOG =>',...args]
+  let _args = [`[TSGEN LOG]`,...args]
   console.log.apply(global,_args);
 }

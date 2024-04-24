@@ -11,7 +11,7 @@ async function start(){
     tsgen({
         filepath:'http://ws.api.test.sxw.cn/lottery-system/v2/api-docs',
         output:'./dist',
-        serviceName: 'remoteService11'
+        serviceName: 'serviceLotterySystem'
     });
 
     // 基于本地json文件

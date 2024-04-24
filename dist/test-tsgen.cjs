@@ -92,6 +92,7 @@ function paramArrDeal(params:any){
     return params;
   }
 }
+let _httpcustomlib:typeof _httplib = (...args:Parameters<typeof _httplib>)=>{};
 function _httplib<ResultType>(reqConfig:{url:string,method:string,params:any},extraConfig?:ApiExtraConfig):any{
   console.log('\u81EA\u52A8\u751F\u6210ts\u5E93 =>',reqConfig)
   const _reqConfig = {...reqConfig};
@@ -102,14 +103,19 @@ function _httplib<ResultType>(reqConfig:{url:string,method:string,params:any},ex
 
   return _httpcustomlib({..._reqConfig,url:url}) as ResultType;
 };
-let _httpcustomlib:typeof _httplib = (...args:Parameters<typeof _httplib>)=>{};
 `;
 function propLine(propKey, prop) {
+  let propTypeString = "any";
+  if (prop.type)
+    propTypeString = propType2tsType(prop.type, prop);
+  else {
+    propTypeString = prop.originalRef.replace(/«|,|»/g, "_");
+  }
   return `
     /**
      * ${prop.description}
      */
-    ${propKey}${prop.required ? "" : "?"}: ${propType2tsType(prop.type)}
+    ${propKey}${prop.required ? "" : "?"}: ${propTypeString}
   `;
 }
 function interfaceTpl(title, name, propStr, splitInterface) {
@@ -138,11 +144,21 @@ ${apiList.join(",\r\n")}
 }
 
 // src/helper.ts
-function propType2tsType(propType) {
+function propType2tsType(propType, prop) {
   const map = {
     "integer": "number",
     "array": "any[]"
   };
+  if (propType === "array") {
+    const subType = prop.items.type;
+    if (subType) {
+      return propType2tsType(subType);
+    }
+    return prop.items.originalRef.replace(/«|,|»/g, "_") + "[]";
+  }
+  if (!propType) {
+    return prop.originalRef.replace(/«|,|»/g, "_");
+  }
   return map[propType] || propType;
 }
 function createInterface(name, definition, splitInterface) {
@@ -163,7 +179,7 @@ function paramParser(param) {
   let paramType = "";
   param = param;
   if (!param.schema) {
-    paramType = propType2tsType(param.type);
+    paramType = propType2tsType(param.type, param);
   } else {
     param.schema = param.schema;
     if (param.schema.type === "array") {
@@ -173,7 +189,7 @@ function paramParser(param) {
       if ($ref)
         paramType = param.schema.$ref.split("#/definitions/")[1];
       else
-        paramType = propType2tsType(param.schema.type);
+        paramType = propType2tsType(param.schema.type, param);
     }
   }
   return { param, paramTypeString: paramType.replace(/«|,|»/g, "_") };
@@ -206,10 +222,10 @@ function createApi(url, pathItem) {
   tsgenLog("path\u53C2\u6570=>", paramNamesInPath);
   tsgenLog("query\u53C2\u6570=>", paramNamesInQuery);
   if (paramStr.length === 0)
-    return `'${url}': { ${action}: () => ${_httpLibTemplate(url, action, "undefined", paramNamesInPath, paramNamesInQuery, paramStr.length, resultTypeString)} }`;
+    return `'${url}': { ${action}: ():${resultTypeString} => ${_httpLibTemplate(url, action, "undefined", paramNamesInPath, paramNamesInQuery, paramStr.length, resultTypeString)} }`;
   if (paramStr.length === 1)
-    return `'${url}':{${action}: (reqData: ${paramStr[0].slice(paramStr[0].indexOf(":") + 1).replace(/«|,|»/g, "_")}) => ${_httpLibTemplate(url, action, "reqData", paramNamesInPath, paramNamesInQuery, paramStr.length, resultTypeString)} }`;
-  const str = `'${url}':{${action}: (reqData: {${paramStr.join(",")}}) => ${_httpLibTemplate(url, action, "reqData", paramNamesInPath, paramNamesInQuery, paramStr.length, resultTypeString)} }`;
+    return `'${url}':{${action}: (reqData: ${paramStr[0].slice(paramStr[0].indexOf(":") + 1).replace(/«|,|»/g, "_")}):${resultTypeString} => ${_httpLibTemplate(url, action, "reqData", paramNamesInPath, paramNamesInQuery, paramStr.length, resultTypeString)} }`;
+  const str = `'${url}':{${action}: (reqData: {${paramStr.join(",")}}):${resultTypeString} => ${_httpLibTemplate(url, action, "reqData", paramNamesInPath, paramNamesInQuery, paramStr.length, resultTypeString)} }`;
   return str;
 }
 function _httpLibTemplate(url, method, data = "reqData", paramNamesInPath, paramNamesInQuery, paramLen, resultTypeString = "any") {
@@ -270,7 +286,7 @@ async function getApidocJSON(filepath) {
   }
 }
 function tsgenLog(...args) {
-  let _args = ["tsgen LOG =>", ...args];
+  let _args = [`[TSGEN LOG]`, ...args];
   console.log.apply(global, _args);
 }
 
@@ -323,7 +339,7 @@ async function start() {
   tsgen({
     filepath: "http://ws.api.test.sxw.cn/lottery-system/v2/api-docs",
     output: "./dist",
-    serviceName: "remoteService11"
+    serviceName: "serviceLotterySystem"
   });
 }
 start();
