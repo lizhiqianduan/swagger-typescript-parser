@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { get, IncomingMessage } from 'http';
-import { OpenAPI2, OperationObject, ParameterObject, PathItemObject, ReferenceObject, SchemaObject } from 'openapi-typescript';
+import { OpenAPI2, OperationObject, ParameterObject, PathItemObject, ReferenceObject, ResponseObject, SchemaObject } from 'openapi-typescript';
 import path from 'path';
 import { TsgenOption } from './entry-tsgen';
 import { interfaceTpl, propLine } from './tpl';
@@ -44,6 +44,33 @@ export function writeFile(path:string,str:string){
   fs.closeSync(fd);
 }
 
+/**
+ * 参数格式转换
+ * @param param 一个参数，可以是入参，也可以是出参
+ * @returns 返回此参数的类型名，字符串
+ */
+function paramParser(param : ReferenceObject | ParameterObject){
+  let paramType = '';
+  param = param as ParameterObject;
+  if(!param.schema){
+    paramType = propType2tsType(param.type!);
+  }else{
+    param.schema = param.schema as SchemaObject;
+    if(param.schema.type==='array'){
+      paramType=(param.schema.items as SchemaObject&{originalRef:string}).originalRef+'[]'
+    }else{
+      // paramType=(param.schema as SchemaObject&{originalRef:string}).originalRef
+      const $ref = (param.schema as SchemaObject&{$ref:string}).$ref;
+      if($ref)
+        paramType=(param.schema as SchemaObject&{$ref:string}).$ref.split('#/definitions/')[1];
+      else
+      paramType=propType2tsType(param.schema.type!);
+    }
+  }
+
+  return {param,paramTypeString:paramType.replace(/«|,|»/g,'_')}
+}
+
 
 /**
  * 创建一个接口调用
@@ -65,29 +92,19 @@ export function createApi(url:string,pathItem:PathItemObject){
 
   if(operation?.parameters){
     paramStr = operation?.parameters!.map((param)=>{
-      let paramType = '';
       param = param as ParameterObject;
       if(param.in==='path' && param.name) paramNamesInPath.push(param.name);
       if(param.in==='query' && param.name) paramNamesInQuery.push(param.name);
-      if(!param.schema){
-        paramType = propType2tsType(param.type!);
-      }else{
-        param.schema = param.schema as SchemaObject;
-        if(param.schema.type==='array'){
-          paramType=(param.schema.items as SchemaObject&{originalRef:string}).originalRef+'[]'
-        }else{
-          // paramType=(param.schema as SchemaObject&{originalRef:string}).originalRef
-          const $ref = (param.schema as SchemaObject&{$ref:string}).$ref;
-          if($ref)
-            paramType=(param.schema as SchemaObject&{$ref:string}).$ref.split('#/definitions/')[1];
-          else
-          paramType=propType2tsType(param.schema.type!);
-        }
-      }
-
-      return `${param.name}: ${paramType}`
+      // 参数类型检测
+      const {paramTypeString} = paramParser(param)
+      return `${param.name}: ${paramTypeString}`
     });
-  }
+  }     
+
+  // todo 返回值类型检测，取返回值为200时的对象进行解析
+  const resultSchema = pathItem[action as 'get'|'post'|'delete'|'put'|'options']!.responses!['200'] as ResponseObject;
+  const resultTypeString = paramParser(resultSchema).paramTypeString;
+
 
 
   if(paramNamesInPath.length>0)tsgenLog('path参数=>',paramNamesInPath);
@@ -99,14 +116,14 @@ export function createApi(url:string,pathItem:PathItemObject){
   tsgenLog('query参数=>',paramNamesInQuery);
 
   // 接口没有参数时的模板
-  if(paramStr.length===0) return `'${url}': { ${action}: () => ${_httpLibTemplate(url,action,'undefined',paramNamesInPath,paramNamesInQuery,paramStr.length)} }`
+  if(paramStr.length===0) return `'${url}': { ${action}: () => ${_httpLibTemplate(url,action,'undefined',paramNamesInPath,paramNamesInQuery,paramStr.length,resultTypeString)} }`
 
   // 只有一个参数时的模板
   if(paramStr.length===1)
-  return `'${url}':{${action}: (reqData: ${paramStr[0].slice(paramStr[0].indexOf(':')+1).replace(/«|,|»/g,'_')}) => ${_httpLibTemplate(url,action,'reqData',paramNamesInPath,paramNamesInQuery,paramStr.length)} }`;
+  return `'${url}':{${action}: (reqData: ${paramStr[0].slice(paramStr[0].indexOf(':')+1).replace(/«|,|»/g,'_')}) => ${_httpLibTemplate(url,action,'reqData',paramNamesInPath,paramNamesInQuery,paramStr.length,resultTypeString)} }`;
 
   // 多个参数时的模板，此类情况多为query参数、path参数，需要兼容 @todo
-  const str = `'${url}':{${action}: (reqData: {${paramStr.join(',')}}) => ${_httpLibTemplate(url,action,'reqData',paramNamesInPath,paramNamesInQuery,paramStr.length)} }`;
+  const str = `'${url}':{${action}: (reqData: {${paramStr.join(',')}}) => ${_httpLibTemplate(url,action,'reqData',paramNamesInPath,paramNamesInQuery,paramStr.length,resultTypeString)} }`;
   return str;
 }
 
@@ -118,8 +135,8 @@ export function createApi(url:string,pathItem:PathItemObject){
  * @param data
  * @returns
  */
-function _httpLibTemplate(url:string,method:string,data:string='reqData',paramNamesInPath:string[],paramNamesInQuery:string[],paramLen:number){
-  return `_httplib( {url:'${url}',method:'${method}','params':${data}}, {originUrl:'${url}',paramNamesInPath:${JSON.stringify(paramNamesInPath)},paramNamesInQuery:${JSON.stringify(paramNamesInQuery)},paramLen:${paramLen}})`;
+function _httpLibTemplate(url:string,method:string,data:string='reqData',paramNamesInPath:string[],paramNamesInQuery:string[],paramLen:number,resultTypeString:string='any'){
+  return `_httplib<${resultTypeString}>( {url:'${url}',method:'${method}','params':${data}}, {originUrl:'${url}',paramNamesInPath:${JSON.stringify(paramNamesInPath)},paramNamesInQuery:${JSON.stringify(paramNamesInQuery)},paramLen:${paramLen}})`;
 }
 
 /**

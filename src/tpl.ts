@@ -69,7 +69,7 @@ function paramArrDeal(params:any){
     return params;
   }
 }
-function _httplib(reqConfig:{url:string,method:string,params:any},extraConfig?:ApiExtraConfig):any{
+function _httplib<ResultType>(reqConfig:{url:string,method:string,params:any},extraConfig?:ApiExtraConfig):any{
   console.log('自动生成ts库 =>',reqConfig)
   const _reqConfig = {...reqConfig};
   let url:string = pathReplace(_reqConfig.params,extraConfig!);
@@ -77,7 +77,7 @@ function _httplib(reqConfig:{url:string,method:string,params:any},extraConfig?:A
   url+=queryReplace(_reqConfig.params,extraConfig!);
   queryReplace(_reqConfig.params,extraConfig!);
 
-  return _httpcustomlib({..._reqConfig,url:url})
+  return _httpcustomlib({..._reqConfig,url:url}) as ResultType;
 };
 let _httpcustomlib:typeof _httplib = (...args:Parameters<typeof _httplib>)=>{};
 `;
