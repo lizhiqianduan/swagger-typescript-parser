@@ -1,0 +1,1735 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "description": "xx系统",
+      "version": "1.0-SNAPSHOT",
+      "title": "lottery-system",
+      "contact": {
+  
+      },
+      "license": {
+  
+      }
+    },
+    "host": "",
+    "basePath": "/",
+    "tags": [
+      {
+        "name": "batch-controller",
+        "description": "Batch Controller"
+      },
+      {
+        "name": "templete-controller",
+        "description": "Templete Controller"
+      }
+    ],
+    "paths": {
+      "/api/batch/del_batch": {
+        "post": {
+          "tags": [
+            "batch-controller"
+          ],
+          "summary": "批次删除",
+          "operationId": "delBatchUsingPOST",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "*/*"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "delBatchBO",
+              "description": "delBatchBO",
+              "required": true,
+              "schema": {
+                "originalRef": "DelBatchBO",
+                "$ref": "#/definitions/DelBatchBO"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "type": "boolean"
+              }
+            },
+            "201": {
+              "description": "Created"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "403": {
+              "description": "Forbidden"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          },
+          "security": [
+            {
+              "Authorization": [
+                "global"
+              ]
+            }
+          ],
+          "deprecated": false
+        }
+      },
+      "/api/batch/export_task": {
+        "post": {
+          "tags": [
+            "batch-controller"
+          ],
+          "summary": "生成导出摇中名单任务",
+          "operationId": "exportTaskUsingPOST",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "*/*"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "exportTaskBO",
+              "description": "exportTaskBO",
+              "required": true,
+              "schema": {
+                "originalRef": "ExportTaskBO",
+                "$ref": "#/definitions/ExportTaskBO"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "type": "string"
+              }
+            },
+            "201": {
+              "description": "Created"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "403": {
+              "description": "Forbidden"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          },
+          "security": [
+            {
+              "Authorization": [
+                "global"
+              ]
+            }
+          ],
+          "deprecated": false
+        }
+      },
+      "/api/batch/publish_member": {
+        "post": {
+          "tags": [
+            "batch-controller"
+          ],
+          "summary": "摇号名单",
+          "operationId": "publishUsingPOST",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "*/*"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "publishMemberBO",
+              "description": "publishMemberBO",
+              "required": true,
+              "schema": {
+                "originalRef": "PublishMemberBO",
+                "$ref": "#/definitions/PublishMemberBO"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "originalRef": "PublishMemberVO",
+                "$ref": "#/definitions/PublishMemberVO"
+              }
+            },
+            "201": {
+              "description": "Created"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "403": {
+              "description": "Forbidden"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          },
+          "security": [
+            {
+              "Authorization": [
+                "global"
+              ]
+            }
+          ],
+          "deprecated": false
+        }
+      },
+      "/api/batch/query_batch": {
+        "post": {
+          "tags": [
+            "batch-controller"
+          ],
+          "summary": "获取批次信息",
+          "operationId": "queryBatchUsingPOST",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "*/*"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "batchBO",
+              "description": "batchBO",
+              "required": true,
+              "schema": {
+                "originalRef": "BatchBO",
+                "$ref": "#/definitions/BatchBO"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "originalRef": "BatchVO",
+                "$ref": "#/definitions/BatchVO"
+              }
+            },
+            "201": {
+              "description": "Created"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "403": {
+              "description": "Forbidden"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          },
+          "security": [
+            {
+              "Authorization": [
+                "global"
+              ]
+            }
+          ],
+          "deprecated": false
+        }
+      },
+      "/api/batch/query_batch_detail": {
+        "post": {
+          "tags": [
+            "batch-controller"
+          ],
+          "summary": "获取批次信息",
+          "operationId": "queryBatchDetailUsingPOST",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "*/*"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "batchBO",
+              "description": "batchBO",
+              "required": true,
+              "schema": {
+                "originalRef": "BatchDetailBO",
+                "$ref": "#/definitions/BatchDetailBO"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "originalRef": "BatchDetailVO",
+                "$ref": "#/definitions/BatchDetailVO"
+              }
+            },
+            "201": {
+              "description": "Created"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "403": {
+              "description": "Forbidden"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          },
+          "security": [
+            {
+              "Authorization": [
+                "global"
+              ]
+            }
+          ],
+          "deprecated": false
+        }
+      },
+      "/api/batch/query_batch_list": {
+        "post": {
+          "tags": [
+            "batch-controller"
+          ],
+          "summary": "批次管理列表查询",
+          "operationId": "queryBatchListUsingPOST",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "*/*"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "queryBatchBO",
+              "description": "queryBatchBO",
+              "required": true,
+              "schema": {
+                "originalRef": "QueryBatchBO",
+                "$ref": "#/definitions/QueryBatchBO"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "originalRef": "PageableData«BatchVO»",
+                "$ref": "#/definitions/PageableData«BatchVO»"
+              }
+            },
+            "201": {
+              "description": "Created"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "403": {
+              "description": "Forbidden"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          },
+          "security": [
+            {
+              "Authorization": [
+                "global"
+              ]
+            }
+          ],
+          "deprecated": false
+        }
+      },
+      "/api/batch/query_batch_mgnt": {
+        "post": {
+          "tags": [
+            "batch-controller"
+          ],
+          "summary": "批次号名称下拉",
+          "operationId": "queryBatchMgntUsingPOST",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "*/*"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "param",
+              "description": "param",
+              "required": true,
+              "schema": {
+                "originalRef": "QueryBatchMgntBO",
+                "$ref": "#/definitions/QueryBatchMgntBO"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "originalRef": "BatchNameVO",
+                  "$ref": "#/definitions/BatchNameVO"
+                }
+              }
+            },
+            "201": {
+              "description": "Created"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "403": {
+              "description": "Forbidden"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          },
+          "security": [
+            {
+              "Authorization": [
+                "global"
+              ]
+            }
+          ],
+          "deprecated": false
+        }
+      },
+      "/api/batch/query_list": {
+        "post": {
+          "tags": [
+            "batch-controller"
+          ],
+          "summary": "导入(插中)名单获取",
+          "operationId": "queryListUsingPOST",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "*/*"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "queryMemberBO",
+              "description": "queryMemberBO",
+              "required": true,
+              "schema": {
+                "originalRef": "QueryMemberBO",
+                "$ref": "#/definitions/QueryMemberBO"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "originalRef": "BatchPageVO",
+                "$ref": "#/definitions/BatchPageVO"
+              }
+            },
+            "201": {
+              "description": "Created"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "403": {
+              "description": "Forbidden"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          },
+          "security": [
+            {
+              "Authorization": [
+                "global"
+              ]
+            }
+          ],
+          "deprecated": false
+        }
+      },
+      "/api/batch/query_lottery": {
+        "post": {
+          "tags": [
+            "batch-controller"
+          ],
+          "summary": "获取摇号界面摇号基础信息",
+          "operationId": "queryLotteryUsingPOST",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "*/*"
+          ],
+          "parameters": [
+            {
+              "name": "batchId",
+              "in": "query",
+              "description": "batchId",
+              "required": true,
+              "type": "integer",
+              "format": "int64"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "originalRef": "LotteryVO",
+                "$ref": "#/definitions/LotteryVO"
+              }
+            },
+            "201": {
+              "description": "Created"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "403": {
+              "description": "Forbidden"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          },
+          "security": [
+            {
+              "Authorization": [
+                "global"
+              ]
+            }
+          ],
+          "deprecated": false
+        }
+      },
+      "/api/batch/query_phase": {
+        "get": {
+          "tags": [
+            "batch-controller"
+          ],
+          "summary": "学段下拉",
+          "operationId": "queryPhaseUsingGET",
+          "produces": [
+            "*/*"
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "originalRef": "PhaseVO",
+                  "$ref": "#/definitions/PhaseVO"
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "403": {
+              "description": "Forbidden"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          },
+          "security": [
+            {
+              "Authorization": [
+                "global"
+              ]
+            }
+          ],
+          "deprecated": false
+        }
+      },
+      "/api/batch/query_school_mgnt": {
+        "post": {
+          "tags": [
+            "batch-controller"
+          ],
+          "summary": "学校名称下拉",
+          "operationId": "querySchoolMgntUsingPOST",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "*/*"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "param",
+              "description": "param",
+              "required": true,
+              "schema": {
+                "originalRef": "QuerySchoolMgntBO",
+                "$ref": "#/definitions/QuerySchoolMgntBO"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "originalRef": "SchoolNameVO",
+                  "$ref": "#/definitions/SchoolNameVO"
+                }
+              }
+            },
+            "201": {
+              "description": "Created"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "403": {
+              "description": "Forbidden"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          },
+          "security": [
+            {
+              "Authorization": [
+                "global"
+              ]
+            }
+          ],
+          "deprecated": false
+        }
+      },
+      "/api/batch/save_or_update": {
+        "post": {
+          "tags": [
+            "batch-controller"
+          ],
+          "summary": "批次新增(或编辑)",
+          "operationId": "saveOrUpdateUsingPOST",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "*/*"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "saveOrUpdateBatchBO",
+              "description": "saveOrUpdateBatchBO",
+              "required": true,
+              "schema": {
+                "originalRef": "SaveOrUpdateBatchBO",
+                "$ref": "#/definitions/SaveOrUpdateBatchBO"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "originalRef": "BatchVO",
+                "$ref": "#/definitions/BatchVO"
+              }
+            },
+            "201": {
+              "description": "Created"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "403": {
+              "description": "Forbidden"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          },
+          "security": [
+            {
+              "Authorization": [
+                "global"
+              ]
+            }
+          ],
+          "deprecated": false
+        }
+      },
+      "/api/batch/start_lottery": {
+        "post": {
+          "tags": [
+            "batch-controller"
+          ],
+          "summary": "启动摇号",
+          "operationId": "startLotteryUsingPOST",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "*/*"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "startLotteryBO",
+              "description": "startLotteryBO",
+              "required": true,
+              "schema": {
+                "originalRef": "StartLotteryBO",
+                "$ref": "#/definitions/StartLotteryBO"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "type": "boolean"
+              }
+            },
+            "201": {
+              "description": "Created"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "403": {
+              "description": "Forbidden"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          },
+          "security": [
+            {
+              "Authorization": [
+                "global"
+              ]
+            }
+          ],
+          "deprecated": false
+        }
+      },
+      "/api/batch/task_result": {
+        "get": {
+          "tags": [
+            "batch-controller"
+          ],
+          "summary": "根据任务ID查询任务状态",
+          "operationId": "taskResultUsingGET",
+          "produces": [
+            "*/*"
+          ],
+          "parameters": [
+            {
+              "name": "taskId",
+              "in": "query",
+              "description": "taskId",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "originalRef": "ExportVO",
+                "$ref": "#/definitions/ExportVO"
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "403": {
+              "description": "Forbidden"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          },
+          "security": [
+            {
+              "Authorization": [
+                "global"
+              ]
+            }
+          ],
+          "deprecated": false
+        }
+      },
+      "/api/batch/valid_file": {
+        "post": {
+          "tags": [
+            "batch-controller"
+          ],
+          "summary": "文件校验",
+          "operationId": "validFileUsingPOST",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "*/*"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "validFileBO",
+              "description": "validFileBO",
+              "required": true,
+              "schema": {
+                "originalRef": "ValidFileBO",
+                "$ref": "#/definitions/ValidFileBO"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "originalRef": "ValidInfoVO",
+                "$ref": "#/definitions/ValidInfoVO"
+              }
+            },
+            "201": {
+              "description": "Created"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "403": {
+              "description": "Forbidden"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          },
+          "security": [
+            {
+              "Authorization": [
+                "global"
+              ]
+            }
+          ],
+          "deprecated": false
+        }
+      },
+      "/api/templete/down_template": {
+        "post": {
+          "tags": [
+            "templete-controller"
+          ],
+          "summary": "下载模版",
+          "operationId": "downTemplateUsingPOST",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "*/*"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "downTemplateBO",
+              "description": "downTemplateBO",
+              "required": true,
+              "schema": {
+                "originalRef": "DownTemplateBO",
+                "$ref": "#/definitions/DownTemplateBO"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "type": "string"
+              }
+            },
+            "201": {
+              "description": "Created"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "403": {
+              "description": "Forbidden"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          },
+          "security": [
+            {
+              "Authorization": [
+                "global"
+              ]
+            }
+          ],
+          "deprecated": false
+        }
+      }
+    },
+    "securityDefinitions": {
+      "Authorization": {
+        "type": "apiKey",
+        "name": "TOKEN",
+        "in": "header"
+      }
+    },
+    "definitions": {
+      "BatchBO": {
+        "type": "object",
+        "properties": {
+          "batchMgntId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "批次管理id"
+          },
+          "phaseId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "学段类型id"
+          },
+          "schoolMgntId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "学校管理id"
+          }
+        },
+        "title": "BatchBO"
+      },
+      "BatchDetailBO": {
+        "type": "object",
+        "properties": {
+          "batchId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "批次列表id"
+          },
+          "batchVersionInfoId": {
+            "type": "string",
+            "description": "批次版本信息id"
+          }
+        },
+        "title": "BatchDetailBO"
+      },
+      "BatchDetailVO": {
+        "type": "object",
+        "properties": {
+          "batchId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "批次列表id"
+          },
+          "batchNameMgntId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "批次管理名称id"
+          },
+          "batchNameMgntName": {
+            "type": "string",
+            "description": "批次管理名称"
+          },
+          "batchVersionInfoId": {
+            "type": "string",
+            "description": "批次版本信息id"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "createdBy": {
+            "type": "string",
+            "description": "创建人"
+          },
+          "importFileName": {
+            "type": "string",
+            "description": "导入名单的文件名"
+          },
+          "importUrl": {
+            "type": "string",
+            "description": "导入名单 url"
+          },
+          "lotteryNum": {
+            "type": "integer",
+            "format": "int32",
+            "description": "已摇号次数"
+          },
+          "phase": {
+            "type": "integer",
+            "format": "int32",
+            "description": "学段类型id"
+          },
+          "phaseName": {
+            "type": "string",
+            "description": "学段类型名称"
+          },
+          "plannedEnrollmentNum": {
+            "type": "integer",
+            "format": "int32",
+            "description": "计划招生数"
+          },
+          "schoolNameMgntId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "学校管理id"
+          },
+          "schoolNameMgntName": {
+            "type": "string",
+            "description": "学校管理名称"
+          },
+          "singleWonNum": {
+            "type": "integer",
+            "format": "int32",
+            "description": "单次摇中人数"
+          },
+          "startLotteryTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "开启摇号时间"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "description": "状态(1、导入状态 2、开启摇号状态 3、摇号完成状态)"
+          },
+          "totalNum": {
+            "type": "integer",
+            "format": "int32",
+            "description": "摇号总人数"
+          },
+          "wonNum": {
+            "type": "integer",
+            "format": "int32",
+            "description": "摇中人数"
+          }
+        },
+        "title": "BatchDetailVO"
+      },
+      "BatchKidMemberVO": {
+        "type": "object",
+        "properties": {
+          "gender": {
+            "type": "integer",
+            "format": "int32",
+            "description": "性别"
+          },
+          "genderName": {
+            "type": "string",
+            "description": "性别名称"
+          },
+          "idCardNumber": {
+            "type": "string",
+            "description": "身份证号"
+          },
+          "name": {
+            "type": "string",
+            "description": "姓名"
+          },
+          "preRegistrationNumber": {
+            "type": "string",
+            "description": "预报名号"
+          },
+          "registeredSchool": {
+            "type": "string",
+            "description": "报名学校"
+          },
+          "registrationTime": {
+            "type": "string",
+            "description": "报名时间"
+          },
+          "specialType": {
+            "type": "string",
+            "description": "特殊类型"
+          }
+        },
+        "title": "BatchKidMemberVO"
+      },
+      "BatchMiddleMemberVO": {
+        "type": "object",
+        "properties": {
+          "gender": {
+            "type": "integer",
+            "format": "int32",
+            "description": "性别"
+          },
+          "genderName": {
+            "type": "string",
+            "description": "性别名称"
+          },
+          "idCardNumber": {
+            "type": "string",
+            "description": "身份证"
+          },
+          "name": {
+            "type": "string",
+            "description": "姓名"
+          },
+          "registeredResidence": {
+            "type": "string",
+            "description": "户口所在地"
+          },
+          "registeredSchool": {
+            "type": "string",
+            "description": "报名学校"
+          }
+        },
+        "title": "BatchMiddleMemberVO"
+      },
+      "BatchNameVO": {
+        "type": "object",
+        "properties": {
+          "batchMgntId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "批次管理id"
+          },
+          "batchMgntName": {
+            "type": "string",
+            "description": "批次管理名称"
+          }
+        },
+        "title": "BatchNameVO"
+      },
+      "BatchPageVO": {
+        "type": "object",
+        "properties": {
+          "batchId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "批次列表id"
+          },
+          "batchVersionInfoId": {
+            "type": "string",
+            "description": "批次版本信息id"
+          },
+          "kidList": {
+            "description": "幼儿名单",
+            "originalRef": "PageableData«BatchKidMemberVO»",
+            "$ref": "#/definitions/PageableData«BatchKidMemberVO»"
+          },
+          "middleList": {
+            "description": "初中名单",
+            "originalRef": "PageableData«BatchMiddleMemberVO»",
+            "$ref": "#/definitions/PageableData«BatchMiddleMemberVO»"
+          },
+          "phaseId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "学段类型"
+          },
+          "primaryList": {
+            "description": "小学名单",
+            "originalRef": "PageableData«BatchPrimaryMemberVO»",
+            "$ref": "#/definitions/PageableData«BatchPrimaryMemberVO»"
+          }
+        },
+        "title": "BatchPageVO"
+      },
+      "BatchPrimaryMemberVO": {
+        "type": "object",
+        "properties": {
+          "gender": {
+            "type": "integer",
+            "format": "int32",
+            "description": "性别"
+          },
+          "genderName": {
+            "type": "string",
+            "description": "性别名称"
+          },
+          "idCardNumber": {
+            "type": "string",
+            "description": "身份证"
+          },
+          "name": {
+            "type": "string",
+            "description": "姓名"
+          },
+          "registeredResidence": {
+            "type": "string",
+            "description": "户口所在地"
+          },
+          "registeredSchool": {
+            "type": "string",
+            "description": "报名学校"
+          }
+        },
+        "title": "BatchPrimaryMemberVO"
+      },
+      "BatchVO": {
+        "type": "object",
+        "properties": {
+          "batchId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "批次列表id"
+          },
+          "batchNameMgntId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "批次管理名称id"
+          },
+          "batchNameMgntName": {
+            "type": "string",
+            "description": "批次管理名称"
+          },
+          "batchVersionInfoId": {
+            "type": "string",
+            "description": "批次版本信息id"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "createdBy": {
+            "type": "string",
+            "description": "创建人"
+          },
+          "lotteryNum": {
+            "type": "integer",
+            "format": "int32",
+            "description": "已摇号次数"
+          },
+          "phase": {
+            "type": "integer",
+            "format": "int32",
+            "description": "学段类型id"
+          },
+          "phaseName": {
+            "type": "string",
+            "description": "学段类型名称"
+          },
+          "plannedEnrollmentNum": {
+            "type": "integer",
+            "format": "int32",
+            "description": "计划招生数"
+          },
+          "schoolNameMgntId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "学校管理id"
+          },
+          "schoolNameMgntName": {
+            "type": "string",
+            "description": "学校管理名称"
+          },
+          "singleWonNum": {
+            "type": "integer",
+            "format": "int32",
+            "description": "单次摇中人数"
+          },
+          "startLotteryTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "开启摇号时间"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "description": "状态(1、导入状态 2、开启摇号状态 3、摇号完成状态)"
+          },
+          "totalNum": {
+            "type": "integer",
+            "format": "int32",
+            "description": "摇号总人数"
+          },
+          "wonNum": {
+            "type": "integer",
+            "format": "int32",
+            "description": "摇中人数"
+          }
+        },
+        "title": "BatchVO"
+      },
+      "DelBatchBO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "title": "DelBatchBO"
+      },
+      "DownTemplateBO": {
+        "type": "object",
+        "properties": {
+          "phaseId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "学段类型id"
+          }
+        },
+        "title": "DownTemplateBO"
+      },
+      "ExportTaskBO": {
+        "type": "object",
+        "title": "ExportTaskBO"
+      },
+      "ExportVO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string",
+            "description": "异常提示信息"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "description": "导出操作状态：0=导出中、1=导出完成、2=导出失败"
+          },
+          "url": {
+            "type": "string",
+            "description": "下载类操作的URL地址"
+          }
+        },
+        "title": "ExportVO"
+      },
+      "LotteryMemberVO": {
+        "type": "object",
+        "properties": {
+          "idCardNumber": {
+            "type": "string",
+            "description": "身份证号"
+          },
+          "name": {
+            "type": "string",
+            "description": "姓名"
+          }
+        },
+        "title": "LotteryMemberVO"
+      },
+      "LotteryVO": {
+        "type": "object",
+        "properties": {
+          "lotteryNum": {
+            "type": "integer",
+            "format": "int32",
+            "description": "已摇号次数"
+          },
+          "plannedEnrollmentNum": {
+            "type": "integer",
+            "format": "int32",
+            "description": "计划招生数"
+          },
+          "singleWonNum": {
+            "type": "integer",
+            "format": "int32",
+            "description": "单次摇中人数"
+          },
+          "totalLotteryNum": {
+            "type": "integer",
+            "format": "int32",
+            "description": "总摇号次数"
+          },
+          "totalNum": {
+            "type": "integer",
+            "format": "int32",
+            "description": "摇号总人数"
+          },
+          "wonNum": {
+            "type": "integer",
+            "format": "int32",
+            "description": "摇中人数"
+          }
+        },
+        "title": "LotteryVO"
+      },
+      "PageableData«BatchKidMemberVO»": {
+        "type": "object",
+        "properties": {
+          "currentPage": {
+            "type": "integer",
+            "format": "int32",
+            "description": "当前页数"
+          },
+          "dataList": {
+            "type": "array",
+            "description": "数据",
+            "items": {
+              "originalRef": "BatchKidMemberVO",
+              "$ref": "#/definitions/BatchKidMemberVO"
+            }
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32",
+            "description": "每页数量"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int64",
+            "description": "总数"
+          },
+          "totalPage": {
+            "type": "integer",
+            "format": "int64",
+            "description": "总页数"
+          }
+        },
+        "title": "PageableData«BatchKidMemberVO»"
+      },
+      "PageableData«BatchMiddleMemberVO»": {
+        "type": "object",
+        "properties": {
+          "currentPage": {
+            "type": "integer",
+            "format": "int32",
+            "description": "当前页数"
+          },
+          "dataList": {
+            "type": "array",
+            "description": "数据",
+            "items": {
+              "originalRef": "BatchMiddleMemberVO",
+              "$ref": "#/definitions/BatchMiddleMemberVO"
+            }
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32",
+            "description": "每页数量"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int64",
+            "description": "总数"
+          },
+          "totalPage": {
+            "type": "integer",
+            "format": "int64",
+            "description": "总页数"
+          }
+        },
+        "title": "PageableData«BatchMiddleMemberVO»"
+      },
+      "PageableData«BatchPrimaryMemberVO»": {
+        "type": "object",
+        "properties": {
+          "currentPage": {
+            "type": "integer",
+            "format": "int32",
+            "description": "当前页数"
+          },
+          "dataList": {
+            "type": "array",
+            "description": "数据",
+            "items": {
+              "originalRef": "BatchPrimaryMemberVO",
+              "$ref": "#/definitions/BatchPrimaryMemberVO"
+            }
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32",
+            "description": "每页数量"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int64",
+            "description": "总数"
+          },
+          "totalPage": {
+            "type": "integer",
+            "format": "int64",
+            "description": "总页数"
+          }
+        },
+        "title": "PageableData«BatchPrimaryMemberVO»"
+      },
+      "PageableData«BatchVO»": {
+        "type": "object",
+        "properties": {
+          "currentPage": {
+            "type": "integer",
+            "format": "int32",
+            "description": "当前页数"
+          },
+          "dataList": {
+            "type": "array",
+            "description": "数据",
+            "items": {
+              "originalRef": "BatchVO",
+              "$ref": "#/definitions/BatchVO"
+            }
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32",
+            "description": "每页数量"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int64",
+            "description": "总数"
+          },
+          "totalPage": {
+            "type": "integer",
+            "format": "int64",
+            "description": "总页数"
+          }
+        },
+        "title": "PageableData«BatchVO»"
+      },
+      "PageableDto": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "format": "int32",
+            "description": "当前页码"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32",
+            "description": "每页记录数"
+          },
+          "sort": {
+            "type": "string",
+            "description": "排序：asc/desc, 默认排序为ORDER By UpdatedAt ASC"
+          },
+          "sortProperties": {
+            "type": "array",
+            "description": "排序字符串数组",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "title": "PageableDto"
+      },
+      "PhaseVO": {
+        "type": "object",
+        "properties": {
+          "phaseId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "学段id"
+          },
+          "phaseName": {
+            "type": "string",
+            "description": "学段名称"
+          }
+        },
+        "title": "PhaseVO"
+      },
+      "PublishMemberBO": {
+        "type": "object",
+        "properties": {
+          "batchId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "批次列表id"
+          }
+        },
+        "title": "PublishMemberBO"
+      },
+      "PublishMemberVO": {
+        "type": "object",
+        "properties": {
+          "lotteryVO": {
+            "description": "摇号相关系统信息",
+            "originalRef": "LotteryVO",
+            "$ref": "#/definitions/LotteryVO"
+          },
+          "members": {
+            "type": "array",
+            "description": "摇中名单",
+            "items": {
+              "originalRef": "LotteryMemberVO",
+              "$ref": "#/definitions/LotteryMemberVO"
+            }
+          }
+        },
+        "title": "PublishMemberVO"
+      },
+      "QueryBatchBO": {
+        "type": "object",
+        "properties": {
+          "batchMgntId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "批次管理id"
+          },
+          "pageableDto": {
+            "description": "分页参数",
+            "originalRef": "PageableDto",
+            "$ref": "#/definitions/PageableDto"
+          },
+          "phaseId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "学段类型id"
+          },
+          "schoolMgntId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "学校管理id"
+          }
+        },
+        "title": "QueryBatchBO"
+      },
+      "QueryBatchMgntBO": {
+        "type": "object",
+        "title": "QueryBatchMgntBO"
+      },
+      "QueryMemberBO": {
+        "type": "object",
+        "properties": {
+          "batchId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "批次列表id"
+          },
+          "isWon": {
+            "type": "boolean",
+            "description": "是否查询抽中名单"
+          },
+          "pageableDto": {
+            "description": "分页参数",
+            "originalRef": "PageableDto",
+            "$ref": "#/definitions/PageableDto"
+          }
+        },
+        "title": "QueryMemberBO"
+      },
+      "QuerySchoolMgntBO": {
+        "type": "object",
+        "title": "QuerySchoolMgntBO"
+      },
+      "SaveOrUpdateBatchBO": {
+        "type": "object",
+        "properties": {
+          "batchMgntName": {
+            "type": "string",
+            "description": "批次名称"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "批次列表id(用于编辑)"
+          },
+          "importFileName": {
+            "type": "string",
+            "description": "导入名单的文件名"
+          },
+          "importUrl": {
+            "type": "string",
+            "description": "导入名单 url"
+          },
+          "phaseId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "学段类型id"
+          },
+          "plannedEnrollmentNum": {
+            "type": "integer",
+            "format": "int32",
+            "description": "计划招生数"
+          },
+          "singleWonNum": {
+            "type": "integer",
+            "format": "int32",
+            "description": "单次摇中人数"
+          },
+          "wonNum": {
+            "type": "integer",
+            "format": "int32",
+            "description": "摇中人数"
+          }
+        },
+        "title": "SaveOrUpdateBatchBO"
+      },
+      "SchoolNameVO": {
+        "type": "object",
+        "properties": {
+          "schoolMgntId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "学校管理id"
+          },
+          "schoolMgntName": {
+            "type": "string",
+            "description": "学校管理名称"
+          }
+        },
+        "title": "SchoolNameVO"
+      },
+      "StartLotteryBO": {
+        "type": "object",
+        "properties": {
+          "batchId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "批次列表id"
+          },
+          "batchVersionInfoId": {
+            "type": "string",
+            "description": "批次版本信息id"
+          }
+        },
+        "title": "StartLotteryBO"
+      },
+      "ValidFileBO": {
+        "type": "object",
+        "properties": {
+          "fileUrl": {
+            "type": "string",
+            "description": "附件url"
+          },
+          "phaseId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "学段类型"
+          }
+        },
+        "title": "ValidFileBO"
+      },
+      "ValidInfoVO": {
+        "type": "object",
+        "properties": {
+          "schoolNameMgntName": {
+            "type": "string",
+            "description": "学校管理名称"
+          },
+          "totalNum": {
+            "type": "integer",
+            "format": "int32",
+            "description": "摇号总人数"
+          }
+        },
+        "title": "ValidInfoVO"
+      }
+    }
+  }
