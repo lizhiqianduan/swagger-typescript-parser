@@ -131,6 +131,7 @@ export function createApi(url:string,pathItem:PathItemObject){
 
   // 只有一个参数时的模板
   if(paramStr.length===1)
+    // return `'${url}':{${action}: (reqData: {${paramStr.join(',')}}):${resultTypeString} => ${_httpLibTemplate(url,action,'reqData',paramNamesInPath,paramNamesInQuery,paramStr.length,resultTypeString)} }`;
   return `'${url}':{${action}: (reqData: ${paramStr[0].slice(paramStr[0].indexOf(':')+1).replace(/«|,|»/g,'_')}):${resultTypeString} => ${_httpLibTemplate(url,action,'reqData',paramNamesInPath,paramNamesInQuery,paramStr.length,resultTypeString)} }`;
 
   // 多个参数时的模板，此类情况多为query参数、path参数，需要兼容 @todo
@@ -149,6 +150,10 @@ export function createApi(url:string,pathItem:PathItemObject){
 function _httpLibTemplate(url:string,method:string,data:string='reqData',paramNamesInPath:string[],paramNamesInQuery:string[],paramLen:number,resultTypeString:string='any'){
   if(method.toLowerCase()==='post')
     return `_httplib<${resultTypeString}>( {url:'${url}',method:'${method}','data':${data}}, {originUrl:'${url}',paramNamesInPath:${JSON.stringify(paramNamesInPath)},paramNamesInQuery:${JSON.stringify(paramNamesInQuery)},paramLen:${paramLen}})`;
+  if(method.toLowerCase()==='get' && paramNamesInQuery.length===1){
+      return `_httplib<${resultTypeString}>( {url:'${url}',method:'${method}','params':{${paramNamesInQuery[0]}:${data}}}, {originUrl:'${url}',paramNamesInPath:${JSON.stringify(paramNamesInPath)},paramNamesInQuery:${JSON.stringify(paramNamesInQuery)},paramLen:${paramLen}})`;
+  }
+  
   return `_httplib<${resultTypeString}>( {url:'${url}',method:'${method}','params':${data}}, {originUrl:'${url}',paramNamesInPath:${JSON.stringify(paramNamesInPath)},paramNamesInQuery:${JSON.stringify(paramNamesInQuery)},paramLen:${paramLen}})`;
 }
 

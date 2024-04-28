@@ -52,8 +52,14 @@ function queryReplace(params:any,extraConfig:ApiExtraConfig){
   // 参数为空时 不拼接
   if(extraConfig.paramNamesInQuery.length===0 || extraConfig.paramLen===0) return url;
 
+  // 一个参数时
+  if (extraConfig.paramNamesInQuery.length === 1){
+    const key = Object.keys(params)[0]
+    querys.push(key+'='+params[key])
+  }
+
   // 有多个query参数时
-  if(extraConfig.paramNamesInQuery.length>=1) {
+  if(extraConfig.paramNamesInQuery.length>1) {
     for (let index = 0; index < extraConfig.paramNamesInQuery.length; index++) {
       const name = extraConfig.paramNamesInQuery[index];
       querys.push(name+'='+params[name])
@@ -76,7 +82,7 @@ function _httplib<ResultType>(reqConfig:{url:string,method:string,params?:any,da
   let url:string = pathReplace(_reqConfig.params,extraConfig!);
   // path参数替换
   url+=queryReplace(_reqConfig.params,extraConfig!);
-  queryReplace(_reqConfig.params,extraConfig!);
+  // queryReplace(_reqConfig.params,extraConfig!);
 
   return _httpcustomlib({..._reqConfig,url:url}) as ResultType;
 };

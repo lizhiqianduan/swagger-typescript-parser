@@ -10,7 +10,7 @@ async function start(){
     // 基于远端http链接
     tsgen({
         filepath:'http://ws.api.test.sxw.cn/lottery-system/v2/api-docs',
-        output:'./dist',
+        output:'/Users/xiaohei/code/sxjy_job/vue3-roll-bm/src/service/',
         serviceName: 'serviceLotterySystem'
     });
 

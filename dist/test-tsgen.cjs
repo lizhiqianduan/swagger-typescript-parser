@@ -75,8 +75,14 @@ function queryReplace(params:any,extraConfig:ApiExtraConfig){
   // \u53C2\u6570\u4E3A\u7A7A\u65F6 \u4E0D\u62FC\u63A5
   if(extraConfig.paramNamesInQuery.length===0 || extraConfig.paramLen===0) return url;
 
+  // \u4E00\u4E2A\u53C2\u6570\u65F6
+  if (extraConfig.paramNamesInQuery.length === 1){
+    const key = Object.keys(params)[0]
+    querys.push(key+'='+params[key])
+  }
+
   // \u6709\u591A\u4E2Aquery\u53C2\u6570\u65F6
-  if(extraConfig.paramNamesInQuery.length>=1) {
+  if(extraConfig.paramNamesInQuery.length>1) {
     for (let index = 0; index < extraConfig.paramNamesInQuery.length; index++) {
       const name = extraConfig.paramNamesInQuery[index];
       querys.push(name+'='+params[name])
@@ -99,7 +105,7 @@ function _httplib<ResultType>(reqConfig:{url:string,method:string,params?:any,da
   let url:string = pathReplace(_reqConfig.params,extraConfig!);
   // path\u53C2\u6570\u66FF\u6362
   url+=queryReplace(_reqConfig.params,extraConfig!);
-  queryReplace(_reqConfig.params,extraConfig!);
+  // queryReplace(_reqConfig.params,extraConfig!);
 
   return _httpcustomlib({..._reqConfig,url:url}) as ResultType;
 };
@@ -231,6 +237,9 @@ function createApi(url, pathItem) {
 function _httpLibTemplate(url, method, data = "reqData", paramNamesInPath, paramNamesInQuery, paramLen, resultTypeString = "any") {
   if (method.toLowerCase() === "post")
     return `_httplib<${resultTypeString}>( {url:'${url}',method:'${method}','data':${data}}, {originUrl:'${url}',paramNamesInPath:${JSON.stringify(paramNamesInPath)},paramNamesInQuery:${JSON.stringify(paramNamesInQuery)},paramLen:${paramLen}})`;
+  if (method.toLowerCase() === "get" && paramNamesInQuery.length === 1) {
+    return `_httplib<${resultTypeString}>( {url:'${url}',method:'${method}','params':{${paramNamesInQuery[0]}:${data}}}, {originUrl:'${url}',paramNamesInPath:${JSON.stringify(paramNamesInPath)},paramNamesInQuery:${JSON.stringify(paramNamesInQuery)},paramLen:${paramLen}})`;
+  }
   return `_httplib<${resultTypeString}>( {url:'${url}',method:'${method}','params':${data}}, {originUrl:'${url}',paramNamesInPath:${JSON.stringify(paramNamesInPath)},paramNamesInQuery:${JSON.stringify(paramNamesInQuery)},paramLen:${paramLen}})`;
 }
 function download(url, filename) {
@@ -340,7 +349,7 @@ async function start() {
   tsgenLog("\u9879\u76EE\u6839\u8DEF\u5F84\uFF1A", moduleRoot());
   tsgen({
     filepath: "http://ws.api.test.sxw.cn/lottery-system/v2/api-docs",
-    output: "./dist",
+    output: "/Users/xiaohei/code/sxjy_job/vue3-roll-bm/src/service/",
     serviceName: "serviceLotterySystem"
   });
 }
