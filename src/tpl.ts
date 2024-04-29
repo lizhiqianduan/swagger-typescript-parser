@@ -83,7 +83,11 @@ function _httplib<ResultType>(reqConfig:{url:string,method:string,params?:any,da
   // path参数替换
   url+=queryReplace(_reqConfig.params,extraConfig!);
   // queryReplace(_reqConfig.params,extraConfig!);
-
+  // 防止拼接get参数重复
+  if (reqConfig.method.toLowerCase() === 'get') {
+    _reqConfig.params = undefined
+    _reqConfig.data = undefined
+  }
   return _httpcustomlib({..._reqConfig,url:url}) as ResultType;
 };
 `;

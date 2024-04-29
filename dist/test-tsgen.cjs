@@ -106,7 +106,11 @@ function _httplib<ResultType>(reqConfig:{url:string,method:string,params?:any,da
   // path\u53C2\u6570\u66FF\u6362
   url+=queryReplace(_reqConfig.params,extraConfig!);
   // queryReplace(_reqConfig.params,extraConfig!);
-
+  // \u9632\u6B62\u62FC\u63A5get\u53C2\u6570\u91CD\u590D
+  if (reqConfig.method.toLowerCase() === 'get') {
+    _reqConfig.params = undefined
+    _reqConfig.data = undefined
+  }
   return _httpcustomlib({..._reqConfig,url:url}) as ResultType;
 };
 `;
@@ -228,10 +232,10 @@ function createApi(url, pathItem) {
   tsgenLog("path\u53C2\u6570=>", paramNamesInPath);
   tsgenLog("query\u53C2\u6570=>", paramNamesInQuery);
   if (paramStr.length === 0)
-    return `'${url}': { ${action}: ():${resultTypeString} => ${_httpLibTemplate(url, action, "undefined", paramNamesInPath, paramNamesInQuery, paramStr.length, resultTypeString)} }`;
+    return `'${url}': { ${action}: ():Promise<${resultTypeString}> => ${_httpLibTemplate(url, action, "undefined", paramNamesInPath, paramNamesInQuery, paramStr.length, resultTypeString)} }`;
   if (paramStr.length === 1)
-    return `'${url}':{${action}: (reqData: ${paramStr[0].slice(paramStr[0].indexOf(":") + 1).replace(/«|,|»/g, "_")}):${resultTypeString} => ${_httpLibTemplate(url, action, "reqData", paramNamesInPath, paramNamesInQuery, paramStr.length, resultTypeString)} }`;
-  const str = `'${url}':{${action}: (reqData: {${paramStr.join(",")}}):${resultTypeString} => ${_httpLibTemplate(url, action, "reqData", paramNamesInPath, paramNamesInQuery, paramStr.length, resultTypeString)} }`;
+    return `'${url}':{${action}: (reqData: ${paramStr[0].slice(paramStr[0].indexOf(":") + 1).replace(/«|,|»/g, "_")}):Promise<${resultTypeString}> => ${_httpLibTemplate(url, action, "reqData", paramNamesInPath, paramNamesInQuery, paramStr.length, resultTypeString)} }`;
+  const str = `'${url}':{${action}: (reqData: {${paramStr.join(",")}}):Promise<${resultTypeString}> => ${_httpLibTemplate(url, action, "reqData", paramNamesInPath, paramNamesInQuery, paramStr.length, resultTypeString)} }`;
   return str;
 }
 function _httpLibTemplate(url, method, data = "reqData", paramNamesInPath, paramNamesInQuery, paramLen, resultTypeString = "any") {

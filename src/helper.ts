@@ -127,15 +127,15 @@ export function createApi(url:string,pathItem:PathItemObject){
   tsgenLog('query参数=>',paramNamesInQuery);
 
   // 接口没有参数时的模板
-  if(paramStr.length===0) return `'${url}': { ${action}: ():${resultTypeString} => ${_httpLibTemplate(url,action,'undefined',paramNamesInPath,paramNamesInQuery,paramStr.length,resultTypeString)} }`
+  if(paramStr.length===0) return `'${url}': { ${action}: ():Promise<${resultTypeString}> => ${_httpLibTemplate(url,action,'undefined',paramNamesInPath,paramNamesInQuery,paramStr.length,resultTypeString)} }`
 
   // 只有一个参数时的模板
   if(paramStr.length===1)
     // return `'${url}':{${action}: (reqData: {${paramStr.join(',')}}):${resultTypeString} => ${_httpLibTemplate(url,action,'reqData',paramNamesInPath,paramNamesInQuery,paramStr.length,resultTypeString)} }`;
-  return `'${url}':{${action}: (reqData: ${paramStr[0].slice(paramStr[0].indexOf(':')+1).replace(/«|,|»/g,'_')}):${resultTypeString} => ${_httpLibTemplate(url,action,'reqData',paramNamesInPath,paramNamesInQuery,paramStr.length,resultTypeString)} }`;
+  return `'${url}':{${action}: (reqData: ${paramStr[0].slice(paramStr[0].indexOf(':')+1).replace(/«|,|»/g,'_')}):Promise<${resultTypeString}> => ${_httpLibTemplate(url,action,'reqData',paramNamesInPath,paramNamesInQuery,paramStr.length,resultTypeString)} }`;
 
   // 多个参数时的模板，此类情况多为query参数、path参数，需要兼容 @todo
-  const str = `'${url}':{${action}: (reqData: {${paramStr.join(',')}}):${resultTypeString} => ${_httpLibTemplate(url,action,'reqData',paramNamesInPath,paramNamesInQuery,paramStr.length,resultTypeString)} }`;
+  const str = `'${url}':{${action}: (reqData: {${paramStr.join(',')}}):Promise<${resultTypeString}> => ${_httpLibTemplate(url,action,'reqData',paramNamesInPath,paramNamesInQuery,paramStr.length,resultTypeString)} }`;
   return str;
 }
 
