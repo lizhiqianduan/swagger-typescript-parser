@@ -1,6 +1,6 @@
 {
   "name": "swagger-typescript-parser",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "只需要一个命令，自动将swagger文档转换为typescript的interface和api，能自动定义接口、自动定义API、自动类型推导、静态检查参数错误...",
   "main": "build/esbuild.cjs",
   "bin": {
